@@ -79,7 +79,7 @@ function DriverList({
             <RefreshCw aria-hidden="true" />
             {t("Refresh")}
           </Button>
-          <Button type="button" onClick={() => setCreating(true)}>
+          <Button variant="primary" type="button" onClick={() => setCreating(true)}>
             <Plus aria-hidden="true" />
             {t("Add driver")}
           </Button>

@@ -1,3 +1,4 @@
+import { chooseSelect } from "@/tests/select-option";
 import { createServer, type Server } from "node:http";
 import { expect, test, type Locator } from "@playwright/test";
 import { translate } from "@/lib/i18n";
@@ -107,7 +108,7 @@ for (const locale of ["en", "ar"] as const) {
     await context.addCookies([{ name: "fleetora_locale", value: locale, url: "http://localhost:3100" }]);
     await page.goto("/app");
     const section = page.getByRole("region", { name: t("Company snapshot"), exact: true });
-    await section.getByRole("combobox", { name: t("Overview currency"), exact: true }).selectOption("JOD");
+    await chooseSelect(section.getByRole("combobox", { name: t("Overview currency"), exact: true }), "JOD");
     await expect(metric(section, t("COD pending collection")).locator("dd").first()).toHaveText(displayMoney("14.125", "JOD", locale));
     await expect(section.getByText(displayMoney("-2.750", "JOD", locale), { exact: true })).toBeVisible();
     await expect(section.getByText(displayMoney("1234.50", "ILS", locale), { exact: true })).toHaveCount(0);

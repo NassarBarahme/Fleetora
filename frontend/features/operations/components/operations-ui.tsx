@@ -1,4 +1,12 @@
 "use client";
+import { Card } from "@/components/ui/card";
+import { Table } from "@/components/ui/table";
+import { ErrorState as SharedErrorState } from "@/components/ui/error-state";
+import { LoadingState } from "@/components/ui/loading-state";
+import { Select } from "@/components/ui/select";
+import { StatusBadge as SharedStatusBadge } from "@/components/ui/status-badge";
+import { formatDateTime } from "@/lib/date-time";
+import { LocalizedDateInput } from "@/components/ui/localized-date-input";
 import { NoAccess } from "@/components/shared/no-access";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
@@ -83,26 +91,10 @@ export function StateLabel({ value }: { value: string }) {
   const { t } = useLocale();
   return <>{states[value] ? t(states[value]) : t("Not recorded")}</>;
 }
-export function StatusBadge({ value }: { value: string }) {
-  const appearance =
-    ["DELIVERED", "PAID", "RETURNED_TO_MERCHANT"].includes(value)
-      ? { badge: "border-success-border bg-success-background", dot: "bg-success" }
-      : /FAILED|CANCELLED/.test(value)
-        ? { badge: "border-danger-border bg-danger-background", dot: "bg-destructive" }
-        : /RETURN|DRAFT|CREATED|HOLD|RESCHEDULED/.test(value)
-          ? { badge: "border-warning-border bg-warning-background", dot: "bg-warning" }
-          : ["RECEIVED_FROM_MERCHANT", "AT_WAREHOUSE", "ASSIGNED", "OUT_FOR_DELIVERY", "PICKED_UP", "READY_FOR_DISPATCH", "FINALIZED"].includes(value)
-            ? { badge: "border-in-progress-border bg-in-progress-background", dot: "bg-in-progress" }
-            : { badge: "border-border bg-secondary", dot: "bg-muted-foreground" };
-  return (
-    <span
-      className={`inline-flex max-w-full items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium leading-4 text-foreground ${appearance.badge}`}
-    >
-      <span aria-hidden="true" className={`size-1.5 shrink-0 rounded-full ${appearance.dot}`} />
-      <StateLabel value={value} />
-    </span>
-  );
+export function StatusBadge({ value, children }: { value: string; children?: ReactNode }) {
+  return <SharedStatusBadge value={value}>{children ?? <StateLabel value={value} />}</SharedStatusBadge>;
 }
+
 const errors: Record<Failure, TranslationKey> = {
   invalid:
     "Check required fields, amounts, currency and the current record state.",
@@ -126,19 +118,7 @@ export function ErrorState({
   message?: TranslationKey;
 }) {
   const { t } = useLocale();
-  return (
-    <div
-      role="alert"
-      className="rounded-lg border border-danger-border bg-surface p-5 text-sm"
-    >
-      <p>{t(message ?? errors[status])}</p>
-      {retry && status !== "uncertain" && (
-        <Button variant="outline" className="mt-3" onClick={retry}>
-          {t("Retry")}
-        </Button>
-      )}
-    </div>
-  );
+  return <SharedErrorState title={t(message ?? errors[status])} action={retry && status !== "uncertain" ? <Button variant="outline" onClick={retry}>{t("Retry")}</Button> : undefined} />;
 }
 export function ReadState({
   result,
@@ -151,21 +131,7 @@ export function ReadState({
 }) {
   const { t } = useLocale();
   return !result ? (
-    <div
-      role="status"
-      className="rounded-lg border bg-surface p-5 text-sm text-muted-foreground sm:p-6"
-    >
-      <p>{t("Loading operations...")}</p>
-      <div aria-hidden="true" className="mt-5 divide-y divide-border motion-safe:animate-pulse">
-        {[0, 1, 2].map((row) => (
-          <div key={row} className="grid grid-cols-3 gap-4 py-4">
-            <span className="h-3 w-3/4 rounded-sm bg-border" />
-            <span className="h-3 w-full rounded-sm bg-muted" />
-            <span className="h-3 w-2/3 rounded-sm bg-muted" />
-          </div>
-        ))}
-      </div>
-    </div>
+    <LoadingState>{t("Loading operations...")}</LoadingState>
   ) : result.status === "forbidden" ? (
     <NoAccess />
   ) : result.status !== "ready" ? (
@@ -199,11 +165,8 @@ export function DateTime({ value }: { value: unknown }) {
   if (typeof value !== "string" || !Number.isFinite(Date.parse(value)))
     return <>—</>;
   return (
-    <time dateTime={value} className="tabular-nums">
-      {new Intl.DateTimeFormat(locale, {
-        dateStyle: "medium",
-        timeStyle: "short",
-      }).format(new Date(value))}
+    <time dir="ltr" dateTime={value} className="tabular-nums">
+      {formatDateTime(value, locale)}
     </time>
   );
 }
@@ -262,13 +225,7 @@ export function DataTable({
       </p>
     );
   return (
-    <div
-      className="relative overflow-x-auto rounded-lg border bg-surface focus-visible:outline-2 focus-visible:outline-primary"
-      tabIndex={0}
-      role="region"
-      aria-label={columns.map((column) => t(column.label)).join(", ")}
-    >
-      <table className="w-full text-start text-sm tabular-nums">
+    <Table aria-label={columns.map((column) => t(column.label)).join(", ")}>
         <thead className="border-b bg-secondary text-xs leading-5 text-muted-foreground">
           <tr>
             {columns.map((column) => (
@@ -304,8 +261,7 @@ export function DataTable({
             </tr>
           ))}
         </tbody>
-      </table>
-    </div>
+    </Table>
   );
 }
 export function DetailsGrid({
@@ -338,13 +294,13 @@ export function Panel({
 }) {
   const { t } = useLocale();
   return (
-    <section className="rounded-lg border bg-surface p-5 sm:p-6">
+    <Card>
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b pb-4">
         <h3 className="text-base font-semibold leading-6">{t(title)}</h3>
         {action}
       </div>
       {children}
-    </section>
+    </Card>
   );
 }
 export function DetailLink({ href }: { href: string }) {
@@ -388,7 +344,7 @@ export type Field = {
 };
 type ScalarValue = string | number | boolean | null;
 const controlStyle =
-  "min-h-10 w-full rounded-md border border-[var(--control-border)] bg-surface px-3 py-2 text-start text-sm focus-visible:outline-2 focus-visible:outline-primary disabled:opacity-50";
+  "min-h-10 w-full rounded-md border border-[var(--control-border)] bg-surface px-3 py-2 text-start text-sm focus-visible:outline-2 focus-visible:outline-ring disabled:opacity-50";
 const lookupPlaceholders = {
   merchants: "Choose merchant",
   drivers: "Choose driver",
@@ -400,7 +356,7 @@ export function EntityPicker({ scope, field, onChange }: { scope: Scope; field: 
     placeholder={lookupPlaceholders[kind]} initialValue={String(field.value ?? "")}
     initialLabel={field.lookupLabel} required={field.required} query={field.lookupQuery} onChange={onChange} />;
 }
-function FormField({ field, scope }: { field: Field; scope: Scope }) {
+function FormField({ field, scope, onSelectChange }: { field: Field; scope: Scope; onSelectChange: (name: string, value: string) => void }) {
   const { t } = useLocale();
   const id = useId();
   if (field.lookup) return <EntityPicker scope={scope} field={field} />;
@@ -429,7 +385,7 @@ function FormField({ field, scope }: { field: Field; scope: Scope }) {
         )}
       </Label>
       {field.options ? (
-        <select {...common}>
+        <Select {...common} onChange={event => onSelectChange(field.name, event.target.value)}>
           {!field.required && <option value="">—</option>}
           {field.options.map((option) => (
             <option key={option.value} value={option.value}>
@@ -438,17 +394,19 @@ function FormField({ field, scope }: { field: Field; scope: Scope }) {
                 : t(option.label as TranslationKey)}
             </option>
           ))}
-        </select>
+        </Select>
       ) : field.type === "checkbox" ? (
         <input
           id={id}
           name={field.name}
           type="checkbox"
           defaultChecked={field.value === true}
-          className="ms-3 size-5 align-middle accent-primary"
+          className="ms-3 size-5 align-middle accent-brand-navy"
         />
       ) : field.type === "textarea" ? (
         <textarea {...common} maxLength={4000} rows={3} />
+      ) : field.type === "date" || field.type === "datetime-local" ? (
+        <LocalizedDateInput {...common} type={field.type} />
       ) : (
         <Input
           {...common}
@@ -577,15 +535,6 @@ export function OperationDialog({
         </div>
         <form
           className="flex min-h-0 flex-1 flex-col overflow-hidden"
-          onChange={(event) => {
-            const target = event.target;
-            if (target instanceof HTMLSelectElement && target.name === "reason")
-              setReason(target.value);
-            if (target instanceof HTMLSelectElement && target.name === "outcome")
-              setOutcome(target.value);
-            if (target instanceof HTMLSelectElement && target.name === "status")
-              setTargetStatus(target.value);
-          }}
           onSubmit={(event) => {
             event.preventDefault();
             void submit(event.currentTarget);
@@ -626,6 +575,11 @@ export function OperationDialog({
                         (field.name === "reason" && outcome === "FAILED"),
                     }}
                     scope={scope}
+                    onSelectChange={(name, value) => {
+                      if (name === "reason") setReason(value);
+                      if (name === "outcome") setOutcome(value);
+                      if (name === "status") setTargetStatus(value);
+                    }}
                   />
                 </div>
               ))}
@@ -650,6 +604,7 @@ export function OperationDialog({
             </Button>
             <Button
               type="submit"
+              variant="primary"
               disabled={pending || result?.status === "uncertain"}
             >
               {t(pending ? "Saving..." : confirmLabel)}

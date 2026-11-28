@@ -1,4 +1,6 @@
-'use client';
+"use client";
+import { StatusBadge } from "@/components/ui/status-badge";
+
 import { useDebouncedSearch } from "@/lib/use-debounced-search";
 
 import Link from 'next/link';
@@ -74,7 +76,7 @@ function MerchantList({ scope, query: initialQuery }: { scope: MerchantScope; qu
                     <p className="mt-0.5 text-sm leading-5 text-muted-foreground [overflow-wrap:anywhere]">{merchant.email || t("Email not provided")}</p>
                   </div>
                   <div className="col-start-1 row-start-2 flex min-w-0 flex-wrap gap-2">
-                    <span className={`rounded-md border px-2 py-1 text-xs font-medium ${merchant.isActive ? 'border-success-border bg-success-background' : 'border-border bg-muted'}`}>{merchant.isActive ? t("Active") : t("Inactive")}</span>
+                    <StatusBadge value={merchant.isActive ? "ACTIVE" : "INACTIVE"}>{merchant.isActive ? t("Active") : t("Inactive")}</StatusBadge>
                     <span className="rounded-md border border-border bg-muted px-2 py-1 text-xs text-muted-foreground">{merchant.isEmailVerified ? t("Email verified") : t("Email unverified")}</span>
                   </div>
                   <Button type="button" variant="outline" size="sm" aria-label={t("View {name}", { name: merchant.name || t("Merchant accounts") })} className="col-start-2 row-start-2 self-center sm:row-span-2 sm:row-start-1" onClick={() => setSelected(merchant.id)}>{t("View details")}</Button>

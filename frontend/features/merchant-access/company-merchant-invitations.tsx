@@ -1,4 +1,6 @@
 "use client";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { formatDateTime } from "@/lib/date-time";
 import {
   useEffect,
   useId,
@@ -357,15 +359,12 @@ function InvitationPanel({
                     </p>
                     <p className="text-sm text-muted-foreground">
                       {invitation.role === "OWNER" ? copy.owner : copy.employee}{" "}
-                      · {stateText[invitation.state]}
+                      · <StatusBadge value={invitation.state}>{stateText[invitation.state]}</StatusBadge>
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {copy.expires}:{" "}
-                      <time dateTime={invitation.expiresAt}>
-                        {new Intl.DateTimeFormat(locale, {
-                          dateStyle: "medium",
-                          timeStyle: "short",
-                        }).format(new Date(invitation.expiresAt))}
+                      <time dir="ltr" dateTime={invitation.expiresAt}>
+                        {formatDateTime(invitation.expiresAt, locale)}
                       </time>
                     </p>
                   </div>

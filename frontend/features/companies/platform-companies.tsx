@@ -1,4 +1,7 @@
 "use client";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { formatDateTime } from "@/lib/date-time";
+import { Select } from "@/components/ui/select";
 import Link from "next/link";
 import {
   useCallback,
@@ -276,9 +279,10 @@ function Companies({ id }: { id?: string }) {
     <div className="min-h-svh bg-background text-foreground">
       <header className="border-b border-border bg-sidebar-navy px-4 py-4 text-sidebar-foreground sm:px-8">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4">
-          <Link href="/platform" className="text-lg font-semibold text-primary">
+          <Link href="/platform" className="text-lg font-semibold text-sidebar-foreground">
             Fleetora
           </Link>
+          <span className="rounded-md border border-sidebar-border px-2 py-1 text-xs text-sidebar-muted">Fleetora Platform</span>
           <nav className="flex flex-wrap items-center gap-4">
             <Link href="/platform/companies">{c("Companies", "الشركات")}</Link>
             <LanguageSwitcher tone="inverse" />
@@ -294,7 +298,7 @@ function Companies({ id }: { id?: string }) {
               : c("Companies", "الشركات")}
           </h1>
           {!id && writable && (
-            <Button onClick={() => setCreate(true)}>
+            <Button variant="primary" onClick={() => setCreate(true)}>
               {c("Create company", "إنشاء شركة")}
             </Button>
           )}
@@ -330,7 +334,7 @@ function Companies({ id }: { id?: string }) {
             </div>
             <div className="space-y-2">
               <Label htmlFor="company-status">{c("Status", "الحالة")}</Label>
-              <select
+              <Select
                 id="company-status"
                 className="h-10 w-full rounded-md border border-border bg-surface px-3"
                 value={status}
@@ -345,7 +349,7 @@ function Companies({ id }: { id?: string }) {
                     {statusLabel(s)}
                   </option>
                 ))}
-              </select>
+              </Select>
             </div>
           </div>
         )}
@@ -375,7 +379,7 @@ function Companies({ id }: { id?: string }) {
                           {company.name}
                         </Link>
                       </td>
-                      <td className="p-4">{statusLabel(company.status)}</td>
+                      <td className="p-4"><StatusBadge value={company.status}>{statusLabel(company.status)}</StatusBadge></td>
                       <td className="p-4">
                         <bdi>{company.phone ?? "—"}</bdi>
                       </td>
@@ -414,7 +418,7 @@ function Companies({ id }: { id?: string }) {
           <>
             <section className="space-y-4 rounded-xl border border-border bg-surface p-5">
               <h2 className="text-lg font-semibold">{details.company.name}</h2>
-              <p>{statusLabel(details.company.status)}</p>
+              <p><StatusBadge value={details.company.status}>{statusLabel(details.company.status)}</StatusBadge></p>
               {details.company.rejectionReason && (
                 <p>{details.company.rejectionReason}</p>
               )}
@@ -534,9 +538,7 @@ function Companies({ id }: { id?: string }) {
                       ]),
                     )}{" "}
                     ·{" "}
-                    {new Date(event.createdAt).toLocaleString(
-                      locale === "ar" ? "ar-PS" : "en-GB",
-                    )}
+                    {formatDateTime(event.createdAt, locale)}
                     {record(event.details) &&
                       typeof event.details.reason === "string" &&
                       event.details.reason && (
@@ -607,7 +609,7 @@ function Companies({ id }: { id?: string }) {
                 <Label htmlFor="company-currency">
                   {c("Company currency", "عملة الشركة")}
                 </Label>
-                <select
+                <Select
                   id="company-currency"
                   name="currency"
                   defaultValue="ILS"
@@ -616,7 +618,7 @@ function Companies({ id }: { id?: string }) {
                   {["ILS", "USD", "EUR", "JOD"].map((currency) => (
                     <option key={currency}>{currency}</option>
                   ))}
-                </select>
+                </Select>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="primary-name">

@@ -175,10 +175,10 @@ export function LoginRouteIllustration() {
     <aside
       aria-labelledby="login-route-heading"
       data-testid="login-route-panel"
-      className={`${styles["login-route-panel"]} order-2 relative isolate flex min-h-[148px] flex-col overflow-hidden bg-brand-navy text-white lg:order-1 lg:min-h-svh lg:px-12 lg:py-12 xl:px-16`}
+      className={`${styles["login-route-panel"]} order-2 relative isolate flex min-h-[148px] flex-col overflow-hidden bg-brand-navy text-sidebar-foreground lg:order-1 lg:min-h-svh lg:px-12 lg:py-12 xl:px-16`}
     >
       <div className="login-route-copy relative z-10 max-w-xl">
-        <p className="hidden text-xs font-semibold uppercase tracking-[0.18em] text-white/80 lg:block">
+        <p className="hidden text-xs font-semibold uppercase tracking-[0.18em] text-sidebar-muted lg:block">
           {t("Fleetora / Route systems")}
         </p>
         <h2 id="login-route-heading" className="sr-only lg:not-sr-only lg:mt-7 lg:max-w-lg lg:text-4xl lg:font-semibold lg:leading-[1.12] lg:tracking-[-0.035em] xl:text-[44px]">
@@ -186,7 +186,7 @@ export function LoginRouteIllustration() {
           <br />
           <span className="text-primary">{t("in view.")}</span>
         </h2>
-        <p className="mt-4 hidden max-w-sm text-base leading-7 text-white/80 lg:block">
+        <p className="mt-4 hidden max-w-sm text-base leading-7 text-sidebar-muted lg:block">
           {t("Clear visibility from pickup to delivery.")}
         </p>
       </div>

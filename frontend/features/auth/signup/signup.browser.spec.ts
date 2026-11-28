@@ -121,7 +121,8 @@ test("supports password visibility, keyboard use, and a small viewport", async (
   await page.keyboard.press("Enter");
   await expect(page.getByLabel("Password", { exact: true })).toHaveAttribute("type", "password");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
-  expect(await page.getByRole("button", { name: "Create account", exact: true }).evaluate((button) => getComputedStyle(button).backgroundColor)).toBe("rgb(11, 129, 122)");
+  expect(await page.getByRole("button", { name: "Create account", exact: true }).evaluate((button) => getComputedStyle(button).backgroundColor)).toBe("rgb(245, 165, 36)");
+  await expect(page.getByRole("button", { name: "Create account", exact: true })).toHaveCSS("color", "rgb(11, 31, 51)");
   await page.keyboard.press("Tab");
   await expect(page.getByRole("button", { name: "Create account", exact: true })).toBeFocused();
 });

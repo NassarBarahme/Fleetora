@@ -31,7 +31,7 @@ export function FleetPreview({ user }: { user: SessionUser }) {
       <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-5 sm:px-6">
         <div>
           <h2 id="fleet-preview-title" className="flex items-center gap-2 text-base font-semibold">
-            <MapPin aria-hidden="true" className="size-5 text-primary-hover" />
+            <MapPin aria-hidden="true" className="size-5 text-brand-navy-hover" />
             {t("Live Tracking")}
           </h2>
           <p className="mt-1 text-xs leading-5 text-muted-foreground">{t("See your fleet at a glance")}</p>

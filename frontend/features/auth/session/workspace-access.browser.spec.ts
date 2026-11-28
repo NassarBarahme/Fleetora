@@ -78,6 +78,6 @@ test("the sidebar signals hidden navigation items at a 900px desktop height", as
   if (state.overflow) expect(state.background).toContain("linear-gradient");
   await nav.getByRole("link", { name: "Merchant settlements" }).scrollIntoViewIfNeeded();
   await expect(nav.getByRole("link", { name: "Merchant settlements" })).toBeInViewport();
-  await expect(page.getByRole("button", { name: "Log out" })).toBeInViewport();
-  expect(await contrastRatio(page.getByRole("button", { name: "Log out" }))).toBeGreaterThanOrEqual(4.5);
+  await expect(page.getByRole("button", { name: "Log out" }).filter({ visible: true }).first()).toBeInViewport();
+  expect(await contrastRatio(page.getByRole("button", { name: "Log out" }).filter({ visible: true }).first())).toBeGreaterThanOrEqual(4.5);
 });

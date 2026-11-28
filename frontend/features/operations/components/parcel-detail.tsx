@@ -173,7 +173,7 @@ function ParcelContent({
                       label: "Business name",
                       value: data.merchant && (
                         <Link
-                          className="text-primary-hover underline"
+                          className="text-brand-navy-hover underline"
                           href={`/app/merchants/${data.merchant.id}`}
                         >
                           {valueText(data.merchant, "name")}

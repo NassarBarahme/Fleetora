@@ -1,4 +1,5 @@
 "use client";
+import { Select } from "@/components/ui/select";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type ReactNode } from "react";
@@ -147,7 +148,7 @@ function Directory({
             render: (row) => (
               <Link
                 href={`/app/merchants/${row.id}`}
-                className="font-semibold text-primary-hover underline-offset-4 hover:underline"
+                className="font-semibold text-brand-navy-hover underline-offset-4 hover:underline"
               >
                 {valueText(row, "name")}
               </Link>
@@ -171,7 +172,7 @@ function Directory({
           },
           {
             label: "Status",
-            render: (row) => t(row.active ? "Active merchant" : "Inactive"),
+            render: (row) => <StatusBadge value={row.active ? "ACTIVE" : "INACTIVE"}>{t(row.active ? "Active merchant" : "Inactive")}</StatusBadge>,
           },
         ]
       : resource === "parcels"
@@ -181,7 +182,7 @@ function Directory({
               render: (row) => (
                 <Link
                   href={`/app/parcels/${row.id}`}
-                  className="font-semibold text-primary-hover hover:underline"
+                  className="font-semibold text-brand-navy-hover hover:underline"
                 >
                   <bdi dir="ltr">{valueText(row, "trackingNumber") || "—"}</bdi>
                 </Link>
@@ -216,7 +217,7 @@ function Directory({
                 label: "Tracking number",
                 render: (row) => (
                   <Link
-                    className="text-primary-hover hover:underline"
+                    className="text-brand-navy-hover hover:underline"
                     href={`/app/parcels/${valueText(row, "shipmentId")}`}
                   >
                     <bdi dir="ltr">
@@ -336,7 +337,7 @@ function Directory({
           {t("Refresh")}
         </Button>
         {resource === "merchants" && permissions.manageMerchants && (
-          <Button
+          <Button variant="primary"
             onClick={() =>
               setDialog({
                 title: "Create merchant",
@@ -349,7 +350,7 @@ function Directory({
           </Button>
         )}
         {resource === "parcels" && permissions.manageParcels && (
-          <Button
+          <Button variant="primary"
             onClick={() =>
               setDialog({
                 title: "Create parcel",
@@ -368,7 +369,7 @@ function Directory({
           </Button>
         )}
         {resource === "collections" && permissions.collect && (
-          <Button
+          <Button variant="primary"
             onClick={() =>
               setDialog({
                 title: "Record COD collection",
@@ -521,7 +522,7 @@ function Directory({
         <p className="mt-5 text-xs">
           <Link
             href="/app/merchants/accounts"
-            className="text-primary-hover underline underline-offset-4"
+            className="text-brand-navy-hover underline underline-offset-4"
           >
             {t("Merchant accounts")}
           </Link>
@@ -600,11 +601,11 @@ export function DirectoryFilters({
           resource === "dashboard") && (
           <div className="space-y-2">
             <Label htmlFor="filter-status">{t("Status")}</Label>
-            <select
+            <Select
               id="filter-status"
               name="status"
               defaultValue={query.status ?? ""}
-              className="min-h-10 w-full rounded-md border border-[var(--control-border)] bg-surface px-3 text-sm focus-visible:outline-2 focus-visible:outline-primary"
+              className="min-h-10 w-full rounded-md border border-[var(--control-border)] bg-surface px-3 text-sm focus-visible:outline-2 focus-visible:outline-ring"
             >
               <option value="">{t("All statuses")}</option>
               {(resource === "settlements"
@@ -633,7 +634,7 @@ export function DirectoryFilters({
                   <StateLabel value={status} />
                 </option>
               ))}
-            </select>
+            </Select>
           </div>
         )}
       </div>
@@ -669,11 +670,11 @@ export function DirectoryFilters({
         {resource === "returns" && (
           <div className="space-y-2">
             <Label htmlFor="filter-reason">{t("Return reason")}</Label>
-            <select
+            <Select
               id="filter-reason"
               name="reason"
               defaultValue={query.reason ?? ""}
-              className="min-h-10 w-full rounded-md border border-[var(--control-border)] bg-surface px-3 text-sm focus-visible:outline-2 focus-visible:outline-primary"
+              className="min-h-10 w-full rounded-md border border-[var(--control-border)] bg-surface px-3 text-sm focus-visible:outline-2 focus-visible:outline-ring"
             >
               <option value="">{t("All statuses")}</option>
               {returnReasonOptions.map((option) => (
@@ -681,22 +682,22 @@ export function DirectoryFilters({
                   <StateLabel value={option.value} />
                 </option>
               ))}
-            </select>
+            </Select>
           </div>
         )}
         {resource === "merchants" && (
           <div className="space-y-2">
             <Label htmlFor="filter-active">{t("Status")}</Label>
-            <select
+            <Select
               id="filter-active"
               name="active"
               defaultValue={query.active ?? ""}
-              className="min-h-10 w-full rounded-md border border-[var(--control-border)] bg-surface px-3 text-sm focus-visible:outline-2 focus-visible:outline-primary"
+              className="min-h-10 w-full rounded-md border border-[var(--control-border)] bg-surface px-3 text-sm focus-visible:outline-2 focus-visible:outline-ring"
             >
               <option value="">{t("All merchants")}</option>
               <option value="true">{t("Active merchant")}</option>
               <option value="false">{t("Inactive")}</option>
-            </select>
+            </Select>
           </div>
         )}
         {resource !== "merchants" &&
@@ -715,30 +716,30 @@ export function DirectoryFilters({
         {resource === "parcels" && (
           <div className="space-y-2">
             <Label htmlFor="filter-direction">{t("Sort by")}</Label>
-            <select
+            <Select
               id="filter-direction"
               name="direction"
               defaultValue={query.direction ?? "desc"}
-              className="min-h-10 w-full rounded-md border border-[var(--control-border)] bg-surface px-3 text-sm focus-visible:outline-2 focus-visible:outline-primary"
+              className="min-h-10 w-full rounded-md border border-[var(--control-border)] bg-surface px-3 text-sm focus-visible:outline-2 focus-visible:outline-ring"
             >
               <option value="desc">{t("Newest first")}</option>
               <option value="asc">{t("Oldest first")}</option>
-            </select>
+            </Select>
           </div>
         )}
         {resource === "collections" && (
           <div className="space-y-2">
             <Label htmlFor="filter-remitted">{t("Status")}</Label>
-            <select
+            <Select
               id="filter-remitted"
               name="remitted"
               defaultValue={query.remitted ?? ""}
-              className="min-h-10 w-full rounded-md border border-[var(--control-border)] bg-surface px-3 text-sm focus-visible:outline-2 focus-visible:outline-primary"
+              className="min-h-10 w-full rounded-md border border-[var(--control-border)] bg-surface px-3 text-sm focus-visible:outline-2 focus-visible:outline-ring"
             >
               <option value="">{t("All statuses")}</option>
               <option value="false">{t("Unremitted")}</option>
               <option value="true">{t("Remitted to company")}</option>
-            </select>
+            </Select>
           </div>
         )}
       </div>
@@ -757,7 +758,7 @@ function AdvancedFilters({ children, collapsible, open }: { children: ReactNode;
   const { t } = useLocale();
   if (!collapsible) return <>{children}</>;
   return <details open={open} className="border-t">
-    <summary className="cursor-pointer px-4 py-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-primary">{t("Advanced filters")}</summary>
+    <summary className="cursor-pointer px-4 py-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-ring">{t("Advanced filters")}</summary>
     {children}
   </details>;
 }

@@ -47,12 +47,12 @@ export function DashboardOverview({ user }: { user: SessionUser }) {
                 href={href}
                 className={`group flex min-w-0 items-start gap-3 p-5 transition-colors first:rounded-t-lg last:rounded-b-lg hover:bg-secondary focus-visible:relative focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 motion-reduce:transition-none ${links.length > 1 ? "md:first:rounded-s-lg md:first:rounded-e-none md:last:rounded-s-none md:last:rounded-e-lg" : "rounded-lg"}`}
               >
-                <Icon aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-muted-foreground group-hover:text-primary-hover" />
+                <Icon aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-muted-foreground group-hover:text-brand-navy-hover" />
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-semibold leading-5">{t(label)}</p>
                   <p className="mt-1.5 text-xs leading-5 text-muted-foreground">{t(description)}</p>
                 </div>
-                <ArrowRight aria-hidden="true" className={`mt-0.5 size-4 shrink-0 text-muted-foreground group-hover:text-primary-hover ${locale === "ar" ? "rotate-180" : ""}`} />
+                <ArrowRight aria-hidden="true" className={`mt-0.5 size-4 shrink-0 text-muted-foreground group-hover:text-brand-navy-hover ${locale === "ar" ? "rotate-180" : ""}`} />
               </Link>
             ))}
           </nav>

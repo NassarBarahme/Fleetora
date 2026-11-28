@@ -1,3 +1,4 @@
+import { chooseSelect } from "@/tests/select-option";
 import { createServer, type Server } from "node:http";
 import { expect, test } from "@playwright/test";
 
@@ -94,7 +95,7 @@ test("admin invites an accountant, sees the one-time link, and revokes it", asyn
   await expect(page.getByText("No invitations yet.")).toBeVisible();
   await expect(page.getByText("(You)")).toBeVisible();
   await page.getByLabel("Email", { exact: true }).fill("accountant@example.com");
-  await expect(page.getByLabel("Role")).toHaveValue("ACCOUNTANT");
+  await expect(page.getByLabel("Role")).toHaveText("Accountant");
   await expect(page.getByText(/Cannot manage staff/)).toBeVisible();
   await page.getByRole("button", { name: "Create invitation" }).click();
   await expect(page.getByLabel("Activation link")).toHaveValue(`http://localhost:3100/auth/accept-invitation#token=${token}`);
@@ -119,7 +120,7 @@ test("admin invites an accountant, sees the one-time link, and revokes it", asyn
 test("admin can choose the company administrator role", async ({ page }) => {
   await page.goto("/app/team");
   await page.getByLabel("Email", { exact: true }).fill("second@example.com");
-  await page.getByLabel("Role").selectOption("COMPANY_ADMIN");
+  await chooseSelect(page.getByLabel("Role"), "COMPANY_ADMIN");
   await expect(page.getByText(/including inviting and revoking staff/)).toBeVisible();
   await page.getByRole("button", { name: "Create invitation" }).click();
   await expect(page.getByLabel("Activation link")).toBeVisible();
@@ -129,11 +130,11 @@ test("admin can choose the company administrator role", async ({ page }) => {
 for (const next of ['OPERATIONS', 'WAREHOUSE'] as const) {
   test(`admin assigns ${next} and can invite the same built-in role`, async ({ page }) => {
     await page.goto('/app/team');
-    await page.getByLabel('Change access for Fixture Accountant').selectOption(next);
+    await chooseSelect(page.getByLabel('Change access for Fixture Accountant'), next);
     await page.getByRole('button', { name: 'Save role' }).click();
     await expect.poll(() => memberRole).toBe(next);
     expect(writes[0]).toMatchObject({ path: `/company/staff/members/${memberId}/role`, body: { role: next }, context: companyId });
-    await page.getByLabel('Role', { exact: true }).selectOption(next);
+    await chooseSelect(page.getByLabel('Role', { exact: true }), next);
     await page.getByLabel('Email', { exact: true }).fill('new@example.com');
     await page.getByRole('button', { name: 'Create invitation' }).click();
     await expect(page.getByLabel('Activation link')).toBeVisible();

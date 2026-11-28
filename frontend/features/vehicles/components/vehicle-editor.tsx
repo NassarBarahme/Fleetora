@@ -1,4 +1,5 @@
 "use client";
+import { Select } from "@/components/ui/select";
 import { useEffect, useRef, useState } from "react";
 import { unstable_rethrow } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -236,18 +237,18 @@ export function VehicleEditor({
           </div>
           <div className="space-y-2">
             <Label htmlFor="vehicle-type">{t("Vehicle type")}</Label>
-            <select
+            <Select
               id="vehicle-type"
               name="type"
               defaultValue={vehicle?.type ?? "CAR"}
-              className="h-10 w-full rounded-md border border-input bg-surface px-3 text-sm focus-visible:outline-2 focus-visible:outline-primary"
+              className="h-10 w-full rounded-md border border-input bg-surface px-3 text-sm focus-visible:outline-2 focus-visible:outline-ring"
             >
               {["CAR", "MOTORCYCLE", "VAN", "TRUCK"].map((type) => (
                 <option key={type} value={type}>
                   {t(vehicleTypeTranslationKey(type))}
                 </option>
               ))}
-            </select>
+            </Select>
           </div>
           <div className="space-y-2">
             <Label htmlFor="vehicle-plate">{t("License plate")}</Label>

@@ -1,4 +1,5 @@
 "use client";
+import { Select } from "@/components/ui/select";
 import { useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -162,7 +163,7 @@ export function EditPricing({
       )}
       <div className="space-y-2">
         <Label htmlFor="pricing-currency">{c.currency}</Label>
-        <select
+        <Select
           id="pricing-currency"
           name="currency"
           defaultValue={row?.currency ?? companyCurrency}
@@ -172,7 +173,7 @@ export function EditPricing({
           <option value={row?.currency ?? companyCurrency}>
             {row?.currency ?? companyCurrency}
           </option>
-        </select>
+        </Select>
         {row && (
           <p className="text-xs text-muted-foreground">{c.currencyFixed}</p>
         )}
@@ -182,7 +183,7 @@ export function EditPricing({
           name="active"
           type="checkbox"
           defaultChecked={row?.active ?? true}
-          className="size-4 accent-primary"
+          className="size-4 accent-brand-navy"
         />
         {c.active}
       </label>

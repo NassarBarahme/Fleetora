@@ -1,4 +1,5 @@
 "use client";
+import { Select } from "@/components/ui/select";
 import Link from "next/link";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { unstable_rethrow } from "next/navigation";
@@ -398,7 +399,7 @@ function ReviewDialog({
               <Label htmlFor="review-decision">
                 {c("Explicit decision", "القرار الصريح")}
               </Label>
-              <select
+              <Select
                 id="review-decision"
                 name="decision"
                 required
@@ -416,7 +417,7 @@ function ReviewDialog({
                 <option value="REJECT">
                   {c("Reject request", "رفض الطلب")}
                 </option>
-              </select>
+              </Select>
             </div>
             <div>
               <Label htmlFor="review-reason">

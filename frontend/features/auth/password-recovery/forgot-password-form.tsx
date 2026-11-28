@@ -27,7 +27,7 @@ export function ForgotPasswordForm() {
             <span className="inline-flex rounded-md bg-success-background px-3 py-1 text-sm font-medium text-foreground">{t("Request received")}</span>
             <h1 id="forgot-password-title" className="text-[28px] font-semibold leading-9 tracking-tight">{t("Check your email")}</h1>
             <p className="text-sm leading-6 text-muted-foreground">{t("If an account matches that email, a reset link is on its way.")}</p>
-            <Link href="/login" className={`${authStyles["auth-text-link"]} inline-flex min-h-11 items-center font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2`}>{t("Back to Login")}</Link>
+            <Link href="/login" className={`${authStyles["auth-text-link"]} inline-flex min-h-11 items-center font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`}>{t("Back to Login")}</Link>
           </div>
         ) : (
           <div className="p-6 sm:p-8">
@@ -43,7 +43,7 @@ export function ForgotPasswordForm() {
                   <Input id="forgot-password-email" name="email" dir="ltr" type="email" autoComplete="email" required defaultValue={emailValue} placeholder="name@company.com" aria-invalid={Boolean(emailError)} aria-describedby={emailError ? "forgot-password-email-error" : undefined} className="h-12 rounded-lg text-sm" />
                   {emailError && <p id="forgot-password-email-error" role="alert" className="text-sm text-danger-foreground">{tMessage(emailError)}</p>}
                 </div>
-                <Button type="submit" className={`${authStyles["auth-primary-action"]} h-12 w-full rounded-lg text-sm font-semibold focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2`}>
+                <Button type="submit" variant="primary" className={`${authStyles["auth-primary-action"]} h-12 w-full rounded-lg text-sm font-semibold focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`}>
                   {pending ? <><span aria-hidden="true" className={`${authStyles["auth-spinner"]} size-4`} />{t("Sending link...")}</> : t("Send reset link")}
                 </Button>
               </fieldset>
@@ -52,8 +52,8 @@ export function ForgotPasswordForm() {
           </div>
         )}
         {state.status !== "success" && (
-          <div className="border-t border-border bg-surface-secondary px-6 py-4 text-center text-[13px] leading-5 text-secondary-foreground">
-            {t("Remembered your password?")} <Link href="/login" className={`${authStyles["auth-text-link"]} font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary`}>{t("Sign in")}</Link>
+          <div className="border-t border-border bg-surface-secondary px-6 py-4 text-center text-sm leading-5 text-secondary-foreground">
+            {t("Remembered your password?")} <Link href="/login" className={`${authStyles["auth-text-link"]} font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring`}>{t("Sign in")}</Link>
           </div>
         )}
       </section>

@@ -566,7 +566,7 @@ test("clears driver details on cross-tab invalidation and logout", async ({
     page.getByRole("dialog", { name: "Driver details" }),
   ).toHaveCount(0);
   await expect(page.getByText("Amina Driver", { exact: true })).toHaveCount(0);
-  await page.getByRole("button", { name: "Log out", exact: true }).click();
+  await page.getByRole("button", { name: "Log out", exact: true }).filter({ visible: true }).first().click();
   await expect(page).toHaveURL(/\/login$/);
   await expect(page.getByText("New Session Driver")).toHaveCount(0);
   expect(

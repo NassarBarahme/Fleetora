@@ -73,7 +73,7 @@ function WarehouseList({
             <RefreshCw aria-hidden="true" />
             {t("Refresh")}
           </Button>
-          <Button type="button" onClick={() => setEditing("new")}>
+          <Button variant="primary" type="button" onClick={() => setEditing("new")}>
             <Plus aria-hidden="true" />
             {t("Add warehouse")}
           </Button>
@@ -97,7 +97,7 @@ function WarehouseList({
             key={status}
             href={location(status, query.search)}
             aria-current={query.status === status ? "page" : undefined}
-            className="rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 aria-[current=page]:bg-surface-secondary aria-[current=page]:text-foreground motion-reduce:transition-none"
+            className="rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 aria-[current=page]:bg-surface-secondary aria-[current=page]:text-foreground motion-reduce:transition-none"
           >
             {status === "ACTIVE" ? t("Active") : t("Archived")}
           </Link>

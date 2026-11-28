@@ -1,5 +1,7 @@
 "use client";
 
+import { formatDateTime } from "@/lib/date-time";
+import { Select } from "@/components/ui/select";
 import { useId, useState, type ReactNode } from "react";
 import {
   Banknote,
@@ -95,7 +97,7 @@ export function OverviewStatistics({ data, loading, error, onRetry }: OverviewSt
   const money = finance ? displayMoney(finance.codPending, finance.currency, locale) : number.format(0);
   const codEmpty = !finance || /^-?0(?:\.0+)?$/.test(finance.codPending);
   const updated = data
-    ? new Intl.DateTimeFormat(locale, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", timeZone: data.timeZone }).format(new Date(data.generatedAt))
+    ? formatDateTime(data.generatedAt, locale, data.timeZone)
     : null;
 
   return (
@@ -110,7 +112,7 @@ export function OverviewStatistics({ data, loading, error, onRetry }: OverviewSt
           {currencies.length > 1 && finance && (
             <div className="space-y-1.5">
               <label htmlFor={currencyId} className="block text-xs font-medium text-muted-foreground">{t("Currency")}</label>
-              <select
+              <Select
                 id={currencyId}
                 aria-label={t("Overview currency")}
                 value={finance.currency}
@@ -119,7 +121,7 @@ export function OverviewStatistics({ data, loading, error, onRetry }: OverviewSt
                 className="min-h-10 min-w-24 rounded-md border border-border-strong bg-surface px-3 text-sm font-medium text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50"
               >
                 {currencies.map(({ currency }) => <option key={currency} value={currency}>{currency}</option>)}
-              </select>
+              </Select>
             </div>
           )}
           {data && !error && (

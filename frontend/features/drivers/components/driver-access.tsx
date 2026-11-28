@@ -1,4 +1,5 @@
 "use client";
+import { formatDateTime } from "@/lib/date-time";
 import { useEffect, useRef, useState } from "react";
 import { unstable_rethrow } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -186,10 +187,7 @@ export function DriverAccessControls({
           {data.pendingInvitation && (
             <p className="text-xs text-muted-foreground">
               {c("Invitation expires: ", "تنتهي الدعوة: ")}
-              {new Intl.DateTimeFormat(locale, {
-                dateStyle: "medium",
-                timeStyle: "short",
-              }).format(new Date(data.pendingInvitation.expiresAt))}
+              {formatDateTime(data.pendingInvitation.expiresAt, locale)}
             </p>
           )}
         </>

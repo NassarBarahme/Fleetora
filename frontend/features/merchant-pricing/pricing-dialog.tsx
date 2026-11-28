@@ -15,7 +15,7 @@ import type {
   Scope,
 } from "./pricing-contract";
 export const controlStyle =
-  "min-h-10 w-full rounded-md border border-input bg-surface px-3 py-2 text-start text-sm focus-visible:outline-2 focus-visible:outline-primary disabled:opacity-50";
+  "min-h-10 w-full rounded-md border border-input bg-surface px-3 py-2 text-start text-sm focus-visible:outline-2 focus-visible:outline-ring disabled:opacity-50";
 export function PricingField({
   name,
   label,
@@ -134,7 +134,7 @@ export function PricingDialog({
               <input
                 type="checkbox"
                 required
-                className="mt-1 size-4 accent-primary"
+                className="mt-1 size-4 accent-brand-navy"
               />
               {c.confirmation}
             </label>

@@ -1,3 +1,4 @@
+import { chooseSelect } from "@/tests/select-option";
 import { randomUUID } from "node:crypto";
 import { createServer, type Server } from "node:http";
 import { expect, test } from "@playwright/test";
@@ -215,10 +216,10 @@ test("pickup cancellation of the dialog writes nothing, while explicit confirmat
     .click();
   await dialog
     .getByLabel("Window start", { exact: true })
-    .fill("2026-11-01T10:00");
+    .fill("01/11/2026 10:00 AM");
   await dialog
     .getByLabel("Window end", { exact: true })
-    .fill("2026-11-01T12:00");
+    .fill("01/11/2026 12:00 PM");
   await dialog.getByRole("combobox", { name: "Drivers", exact: true }).click();
   await dialog.getByRole("option", { name: /Fixture pickup driver/ }).click();
   await dialog
@@ -250,11 +251,10 @@ test("physical receipt submits only explicitly reviewed parcels and requires dis
     .getByRole("button", { name: "Review request", exact: true })
     .click();
   const dialog = page.getByRole("dialog");
-  await dialog.getByLabel("Action", { exact: true }).selectOption("RECEIPTS");
-  await dialog
+  await chooseSelect(dialog.getByLabel("Action", { exact: true }), "RECEIPTS");
+  await chooseSelect(dialog
     .getByLabel("Receipt result", { exact: true })
-    .first()
-    .selectOption("MISSING");
+    .first(), "MISSING");
   await dialog
     .getByRole("button", { name: "Save reviewed action", exact: true })
     .click();
@@ -297,9 +297,8 @@ test("financial preview requires an explicit decision and keeps final collection
     .getByRole("button", { name: "Record decision", exact: true })
     .click();
   expect(writes).toEqual([]);
-  await dialog
-    .getByLabel("Explicit decision", { exact: true })
-    .selectOption("APPROVE");
+  await chooseSelect(dialog
+    .getByLabel("Explicit decision", { exact: true }), "APPROVE");
   await dialog
     .getByLabel("Review reason", { exact: true })
     .fill("Reviewed fixture price and address");
@@ -329,15 +328,16 @@ test("unavailable approval can be rejected and settlement review never claims pa
     .getByRole("button", { name: "Review financial impact", exact: true })
     .click();
   const dialog = page.getByRole("dialog");
+  await dialog.getByLabel("Explicit decision", { exact: true }).click();
   await expect(
     dialog.getByRole("option", {
       name: "Approve reviewed changes",
       exact: true,
     }),
   ).toBeDisabled();
-  await dialog
-    .getByLabel("Explicit decision", { exact: true })
-    .selectOption("REJECT");
+  await page.keyboard.press("Escape");
+  await chooseSelect(dialog
+    .getByLabel("Explicit decision", { exact: true }), "REJECT");
   await dialog
     .getByLabel("Review reason", { exact: true })
     .fill("Current terms unavailable");

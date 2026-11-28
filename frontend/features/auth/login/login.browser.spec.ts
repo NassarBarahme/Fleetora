@@ -233,7 +233,7 @@ test("logs out and clears both session cookies", async ({ page }) => {
   await fillLogin(page);
   await page.getByRole("button", { name: "Sign in", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Overview", exact: true })).toBeVisible();
-  await page.getByRole("button", { name: "Log out" }).click();
+  await page.getByRole("button", { name: "Log out" }).filter({ visible: true }).first().click();
   await expect(page).toHaveURL(/\/login$/);
   expect((await page.context().cookies()).filter((cookie) => cookie.name.startsWith("fleetora_"))).toEqual([]);
   expect(requests.some((request) => request.path === "/auth/logout")).toBe(true);
@@ -270,7 +270,7 @@ test("serializes logout after pending session refresh so late credentials cannot
     const queuedBeforeLogout = await page.evaluate(async () =>
       ((await navigator.locks.query()).pending ?? []).filter(lock => lock.name === "fleetora-session-refresh").length,
     );
-    await page.getByRole("button", { name: "Log out" }).click();
+    await page.getByRole("button", { name: "Log out" }).filter({ visible: true }).first().click();
     await expect(page.getByText("Amina Hassan")).toHaveCount(0);
     await expect.poll(() => page.evaluate(async () =>
       ((await navigator.locks.query()).pending ?? []).filter(lock => lock.name === "fleetora-session-refresh").length,
@@ -295,7 +295,7 @@ test("invalidates another protected tab when logout changes the shared session",
   try {
     await observer.goto("/app");
     await expect(observer.getByText("Amina Hassan").first()).toBeVisible();
-    await page.getByRole("button", { name: "Log out" }).click();
+    await page.getByRole("button", { name: "Log out" }).filter({ visible: true }).first().click();
     await expect(page).toHaveURL(/\/login$/);
     await expect(observer).toHaveURL(/\/login$/);
     await expect(observer.getByText("Amina Hassan")).toHaveCount(0);
@@ -309,7 +309,7 @@ test("clears local cookies and reports when server-side logout cannot be confirm
   await page.getByRole("button", { name: "Sign in", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Overview", exact: true })).toBeVisible();
   logoutStatus = 503;
-  await page.getByRole("button", { name: "Log out" }).click();
+  await page.getByRole("button", { name: "Log out" }).filter({ visible: true }).first().click();
   await expect(page).toHaveURL(/\/login\?logout=unconfirmed$/);
   expect((await page.context().cookies()).filter((cookie) => cookie.name.startsWith("fleetora_"))).toEqual([]);
   await expect(page.locator("main").getByText("You're signed out on this device.", { exact: false })).toContainText("couldn't confirm that the server ended the session");

@@ -1,5 +1,7 @@
 "use client";
 
+import { statusTone } from "@/components/ui/status-map";
+import { formatDate } from "@/lib/date-time";
 import { useId, type ReactNode } from "react";
 import { BarChart3, PackageOpen, type LucideIcon } from "lucide-react";
 import {
@@ -42,25 +44,7 @@ const statusLabels: Record<ParcelStatus, TranslationKey> = {
   RETURNED_TO_MERCHANT: "Returned to merchant",
 };
 
-const statusFills: Record<ParcelStatus, string> = {
-  CREATED: "var(--muted-foreground)",
-  READY_FOR_DISPATCH: "var(--primary)",
-  ASSIGNED: "var(--brand-navy)",
-  PICKED_UP: "var(--primary)",
-  OUT_FOR_DELIVERY: "var(--primary-hover)",
-  DELIVERED: "var(--primary)",
-  CANCELLED: "var(--muted-foreground)",
-  FAILED_DELIVERY: "var(--muted-foreground)",
-  RESCHEDULED: "var(--muted-foreground)",
-  RETURNED: "var(--muted-foreground)",
-  ON_HOLD: "var(--muted-foreground)",
-  RECEIVED_FROM_MERCHANT: "var(--primary)",
-  AT_WAREHOUSE: "var(--brand-navy)",
-  RETURN_IN_PROGRESS: "var(--muted-foreground)",
-  RETURNED_TO_WAREHOUSE: "var(--muted-foreground)",
-  RETURNED_TO_MERCHANT: "var(--muted-foreground)",
-};
-
+const toneFills = { success: "var(--success)", warning: "var(--warning)", danger: "var(--danger-foreground)", info: "var(--in-progress)", neutral: "var(--muted-foreground)" };
 const tooltipStyle = {
   background: "var(--surface)",
   border: "1px solid var(--border-strong)",
@@ -112,7 +96,7 @@ function StatusDistribution({ data }: { data: OverviewStats }) {
   const statuses = data.parcelsByStatus.filter((entry) => entry.count > 0).map((entry) => ({
     ...entry,
     name: t(statusLabels[entry.status]),
-    fill: statusFills[entry.status],
+    fill: toneFills[statusTone(entry.status)],
   }));
   return (
     <ChartCard title="Parcels by status" description="Current distribution across your company">
@@ -153,8 +137,6 @@ function DailyActivity({ data }: { data: OverviewStats }) {
   const { t, locale } = useLocale();
   const number = new Intl.NumberFormat(locale);
   const shortNumber = new Intl.NumberFormat(locale, { notation: "compact", maximumFractionDigits: 1 });
-  const shortDate = new Intl.DateTimeFormat(locale, { weekday: "short", timeZone: data.timeZone });
-  const fullDate = new Intl.DateTimeFormat(locale, { month: "short", day: "numeric", year: "numeric", timeZone: data.timeZone });
   const days = data.parcelActivityLast7Days;
   const hasActivity = days.some((day) => day.created > 0 || day.delivered > 0);
   const rtl = locale === "ar";
@@ -163,18 +145,18 @@ function DailyActivity({ data }: { data: OverviewStats }) {
     <ChartCard title="Daily parcel activity" description="Created and delivered over the last 7 days · UTC">
       <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs leading-5">
         <span className="inline-flex items-center gap-2"><span aria-hidden="true" className="size-2 rounded-sm bg-brand-navy" />{t("Parcels created")}</span>
-        <span className="inline-flex items-center gap-2"><span aria-hidden="true" className="size-2 rounded-sm bg-primary-hover" />{t("Parcels delivered")}</span>
+        <span className="inline-flex items-center gap-2"><span aria-hidden="true" className="size-2 rounded-sm bg-success" />{t("Parcels delivered")}</span>
       </div>
       {hasActivity ? (
         <div className={`${styles.chart} mt-5 h-60 min-w-0`} dir="ltr">
           <ResponsiveContainer width="100%" height="100%" minWidth={0}>
             <BarChart data={days} accessibilityLayer aria-label={t("Daily parcel activity")} margin={{ top: 8, right: 4, bottom: 0, left: 0 }} barCategoryGap="25%" barGap={3}>
               <CartesianGrid vertical={false} stroke="var(--border)" strokeDasharray="3 3" />
-              <XAxis dataKey="date" tickFormatter={(date: string) => shortDate.format(new Date(`${date}T00:00:00Z`))} reversed={rtl} axisLine={false} tickLine={false} tick={{ fill: "var(--muted-foreground)", fontSize: 12 }} tickMargin={12} minTickGap={8} height={40} />
+              <XAxis dataKey="date" tickFormatter={(date: string) => formatDate(date, locale, data.timeZone)} reversed={rtl} axisLine={false} tickLine={false} tick={{ fill: "var(--muted-foreground)", fontSize: 12 }} tickMargin={12} minTickGap={8} height={40} />
               <YAxis orientation={rtl ? "right" : "left"} allowDecimals={false} width={40} axisLine={false} tickLine={false} tick={{ fill: "var(--muted-foreground)", fontSize: 12 }} tickFormatter={(value: number) => shortNumber.format(value)} />
               <Tooltip
                 formatter={(value) => typeof value === "number" ? number.format(value) : value}
-                labelFormatter={(date) => typeof date === "string" ? fullDate.format(new Date(`${date}T00:00:00Z`)) : date}
+                labelFormatter={(date) => typeof date === "string" ? formatDate(date, locale, data.timeZone) : date}
                 contentStyle={tooltipStyle}
                 itemStyle={{ color: "var(--foreground)" }}
                 wrapperStyle={{ direction: rtl ? "rtl" : "ltr" }}
@@ -182,13 +164,13 @@ function DailyActivity({ data }: { data: OverviewStats }) {
                 isAnimationActive={false}
               />
               <Bar dataKey="created" name={t("Parcels created")} fill="var(--brand-navy)" radius={[3, 3, 0, 0]} maxBarSize={24} isAnimationActive={false} />
-              <Bar dataKey="delivered" name={t("Parcels delivered")} fill="var(--primary-hover)" radius={[3, 3, 0, 0]} maxBarSize={24} isAnimationActive={false} />
+              <Bar dataKey="delivered" name={t("Parcels delivered")} fill="var(--success)" radius={[3, 3, 0, 0]} maxBarSize={24} isAnimationActive={false} />
             </BarChart>
           </ResponsiveContainer>
         </div>
       ) : <EmptyChart title={days.some((day) => day.returned > 0) ? "No new parcels or deliveries in the last 7 days" : "No parcel activity in the last 7 days"} description="New parcels and confirmed deliveries will appear here." />}
       <details className="mt-4 border-t pt-3">
-        <summary className="w-fit cursor-pointer rounded-sm text-xs font-medium leading-6 text-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">{t("View daily activity data")}</summary>
+        <summary className="w-fit cursor-pointer rounded-sm text-xs font-medium leading-6 text-brand-navy-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">{t("View daily activity data")}</summary>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full text-start text-xs leading-5 tabular-nums">
             <caption className="sr-only">{t("Daily parcel activity")}</caption>
@@ -200,7 +182,7 @@ function DailyActivity({ data }: { data: OverviewStats }) {
             </tr></thead>
             <tbody>{days.map((day) => (
               <tr key={day.date} className="border-b last:border-b-0">
-                <th scope="row" className="whitespace-nowrap py-2 pe-3 text-start font-medium">{fullDate.format(new Date(`${day.date}T00:00:00Z`))}</th>
+                <th scope="row" className="whitespace-nowrap py-2 pe-3 text-start font-medium">{formatDate(day.date, locale, data.timeZone)}</th>
                 <td className="px-2 py-2 text-end">{number.format(day.created)}</td>
                 <td className="px-2 py-2 text-end">{number.format(day.delivered)}</td>
                 <td className="py-2 ps-2 text-end">{number.format(day.returned)}</td>
@@ -218,7 +200,7 @@ function DeliveryPerformance({ data }: { data: OverviewStats }) {
   const number = new Intl.NumberFormat(locale);
   const rtl = locale === "ar";
   const rows = [
-    { name: t("Delivered"), count: data.deliveryPerformance.delivered, fill: "var(--primary-hover)" },
+    { name: t("Delivered"), count: data.deliveryPerformance.delivered, fill: "var(--success)" },
     { name: t("Failed / returned"), count: data.deliveryPerformance.failedOrReturned, fill: "var(--muted-foreground)" },
     { name: t("In progress"), count: data.deliveryPerformance.inProgress, fill: "var(--brand-navy)" },
   ];

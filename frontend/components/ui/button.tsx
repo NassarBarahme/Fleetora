@@ -11,6 +11,10 @@ const buttonVariants = cva(
       variant: {
         default:
           "bg-action-background text-primary-foreground hover:bg-primary-hover active:bg-primary-active",
+        primary:
+          "bg-action-background text-primary-foreground hover:bg-primary-hover active:bg-primary-active",
+        danger:
+          "bg-destructive text-destructive-foreground hover:bg-danger-hover",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
@@ -28,7 +32,7 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: "secondary",
       size: "default",
     },
   }

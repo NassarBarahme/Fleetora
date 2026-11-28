@@ -145,7 +145,7 @@ export function AcceptInvitationForm() {
                     {field("confirmPassword", copy.confirm, { type: "password", autoComplete: "new-password", dir: "ltr" })}
                     <Button
                       type="submit"
-                      className={`${authStyles["auth-primary-action"]} h-12 w-full rounded-lg text-sm font-semibold focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2`}
+                      className={`${authStyles["auth-primary-action"]} h-12 w-full rounded-lg text-sm font-semibold focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`}
                     >
                       {pending ? (
                         <>
@@ -166,8 +166,8 @@ export function AcceptInvitationForm() {
           )}
         </div>
         {state.status !== "accepted" && (
-          <div className="border-t border-border bg-surface-secondary px-6 py-4 text-center text-[13px] leading-5 text-secondary-foreground">
-            <Link href="/login" className={`${authStyles["auth-text-link"]} font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary`}>
+          <div className="border-t border-border bg-surface-secondary px-6 py-4 text-center text-sm leading-5 text-secondary-foreground">
+            <Link href="/login" className={`${authStyles["auth-text-link"]} font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring`}>
               {copy.back}
             </Link>
           </div>

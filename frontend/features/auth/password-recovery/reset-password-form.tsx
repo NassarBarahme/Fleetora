@@ -40,7 +40,7 @@ export function ResetPasswordForm({
           ) : !validLink ? (
             <div className="mt-4 space-y-4">
               <p role="alert" className={`${authStyles["auth-feedback"]} rounded-md border border-danger-border bg-danger-background p-3 text-sm text-foreground`}>{t("This reset link is invalid or expired. Request a new one to continue.")}</p>
-              <Link href="/forgot-password" className={`${authStyles["auth-text-link"]} inline-flex min-h-11 items-center font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary`}>{t("Request a new link")}</Link>
+              <Link href="/forgot-password" className={`${authStyles["auth-text-link"]} inline-flex min-h-11 items-center font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring`}>{t("Request a new link")}</Link>
             </div>
           ) : (
             <form action={action} aria-busy={pending} className="space-y-5">
@@ -56,7 +56,7 @@ export function ResetPasswordForm({
                   <Input id="reset-password-confirm" name="confirmPassword" dir="ltr" type="password" autoComplete="new-password" required minLength={6} aria-invalid={Boolean(state.status === "error" && state.fieldErrors?.confirmPassword)} aria-describedby={state.status === "error" && state.fieldErrors?.confirmPassword ? "reset-password-confirm-error" : undefined} className="h-12 rounded-lg text-sm" />
                   {state.status === "error" && state.fieldErrors?.confirmPassword && <p id="reset-password-confirm-error" role="alert" className="text-sm text-danger-foreground">{tMessage(state.fieldErrors.confirmPassword)}</p>}
                 </div>
-                <Button type="submit" className={`${authStyles["auth-primary-action"]} h-12 w-full rounded-lg text-sm font-semibold focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2`}>
+                <Button type="submit" variant="primary" className={`${authStyles["auth-primary-action"]} h-12 w-full rounded-lg text-sm font-semibold focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`}>
                   {pending ? <><span aria-hidden="true" className={`${authStyles["auth-spinner"]} size-4`} />{t("Updating password...")}</> : t("Reset password")}
                 </Button>
               </fieldset>
@@ -64,8 +64,8 @@ export function ResetPasswordForm({
             </form>
           )}
         </div>
-        <div className="border-t border-border bg-surface-secondary px-6 py-4 text-center text-[13px] leading-5 text-secondary-foreground">
-          <Link href="/login" className={`${authStyles["auth-text-link"]} font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary`}>{t("Back to Login")}</Link>
+        <div className="border-t border-border bg-surface-secondary px-6 py-4 text-center text-sm leading-5 text-secondary-foreground">
+          <Link href="/login" className={`${authStyles["auth-text-link"]} font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring`}>{t("Back to Login")}</Link>
         </div>
       </section>
     </PasswordRecoveryShell>
