@@ -19,7 +19,7 @@ function LogoutSubmitButton({ tone }: { tone: LogoutTone }) {
       type="submit"
       variant="ghost"
       disabled={pending}
-      className={tone === "sidebar" ? styles.sidebarItem : "min-h-10 text-foreground hover:bg-primary-subtle hover:text-primary-hover"}
+      className={tone === "sidebar" ? styles.sidebarItem : "min-h-10 text-foreground hover:bg-primary-subtle hover:text-brand-navy-hover"}
     >
       <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" className="size-5">
         <path d="M8 3.5H5.25A1.25 1.25 0 0 0 4 4.75v10.5a1.25 1.25 0 0 0 1.25 1.25H8m4-3 3.5-3.5L12 6.5m3.5 3.5H8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

@@ -35,7 +35,8 @@
 | OD-18 | Invoices are deferred. Phase 3 PR 3 records manual payment period, amount and note only. No payment gateway. | BR-046 | Phase 3 PR 3 |
 | OD-19 | Defer BR-048 support access to a separate PR after Phase 3, BR-051 announcements and extended usage statistics (aggregated counts only now). AI quota consumption remains Phase 11; entitlement settings only in Phase 3. | BR-048, BR-049, BR-051, BR-132, BR-133 | Explicit scope deferral |
 | OD-20 | Owner, 2026-11-28: merchant employees are allowed per AM-05 (one OWNER plus optional limited employees). This overrides the PRD §3 Merchant restriction "no merchant employees/branches"; PRD §3 is superseded on this point (branches remain out of scope). The merchant invitation copy "The owner can then add employees from the merchant app" stays. | AM-05, PRD §3 | Current (copy unchanged) |
-| OD-21 | Owner, 2026-11-28: dates display as dd/MM/yyyy with Latin digits 0-9 in both Arabic and English; times use the 12-hour clock with AM/PM in English and ص/م in Arabic. One shared formatter serves all dates, times and date inputs. | NFR Accessibility (AR/EN) | Phase D (not in D0; recorded only) |
+| OD-21 | Owner, 2026-11-28: dates display as dd/MM/yyyy with Latin digits 0-9 in both Arabic and English; times use the 12-hour clock with AM/PM in English and ص/م in Arabic. One shared formatter serves all dates, times and date inputs. | NFR Accessibility (AR/EN) | Phase D1 (D0 recorded the decision only) |
+| OD-22 | Owner, 2026-11-28: adopt the 60/30/10 surfaces / navy / signature amber design system. Exact palette, permitted use, typography, shared components and accessibility are defined only in [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md), the binding UI law. Supersedes the previous teal design references, which are archived. No business behavior changes. | UI-00, OD-21, NFR Accessibility (AR/EN) | Phase D1 |
 
 ### OD-15 PR 1 implementation and rollout
 

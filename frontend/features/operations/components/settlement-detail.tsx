@@ -74,7 +74,7 @@ function SettlementLines({
           render: (row) =>
             row.shipmentId ? (
               <Link
-                className="break-all text-xs text-primary-hover underline"
+                className="break-all text-xs text-brand-navy-hover underline"
                 href={`/app/parcels/${valueText(row, "shipmentId")}`}
               >
                 <bdi dir="ltr">{valueText(row, "shipmentId")}</bdi>

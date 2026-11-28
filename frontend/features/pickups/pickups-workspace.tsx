@@ -1,4 +1,6 @@
 "use client";
+import { LocalizedDateInput } from "@/components/ui/localized-date-input";
+import { Select } from "@/components/ui/select";
 import Link from "next/link";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { unstable_rethrow } from "next/navigation";
@@ -433,7 +435,7 @@ function PickupDialog({
                   <Label htmlFor="pickup-action">
                     {c("Action", "الإجراء")}
                   </Label>
-                  <select
+                  <Select
                     id="pickup-action"
                     className={control}
                     value={mode}
@@ -469,7 +471,7 @@ function PickupDialog({
                         {c("Cancel request", "إلغاء الطلب")}
                       </option>
                     )}
-                  </select>
+                  </Select>
                 </div>
                 {mode === "RECEIPTS" ? (
                   <div className="space-y-3">
@@ -496,7 +498,7 @@ function PickupDialog({
                         <Label htmlFor="pickup-from">
                           {c("Window start", "بداية الوقت")}
                         </Label>
-                        <Input
+                        <LocalizedDateInput
                           id="pickup-from"
                           name="from"
                           type="datetime-local"
@@ -508,7 +510,7 @@ function PickupDialog({
                         <Label htmlFor="pickup-to">
                           {c("Window end", "نهاية الوقت")}
                         </Label>
-                        <Input
+                        <LocalizedDateInput
                           id="pickup-to"
                           name="to"
                           type="datetime-local"
@@ -573,7 +575,7 @@ function ReceiptFields({
       <Label htmlFor={`receipt-${shipmentId}`}>
         {c("Receipt result", "نتيجة الاستلام")}
       </Label>
-      <select
+      <Select
         id={`receipt-${shipmentId}`}
         name={`receipt:${shipmentId}`}
         className={control}
@@ -588,7 +590,7 @@ function ReceiptFields({
         <option value="DISCREPANT">
           {c("Received with discrepancy", "استُلم مع اختلاف")}
         </option>
-      </select>
+      </Select>
       <Label htmlFor={`note-${shipmentId}`}>
         {c("Receipt notes", "ملاحظات الاستلام")}
       </Label>

@@ -97,7 +97,7 @@ function VehicleCatalog({
             <RefreshCw aria-hidden="true" />
             {t("Refresh")}
           </Button>
-          {canManage && <Button
+          {canManage && <Button variant="primary"
             type="button"
             onClick={() => {
               setSaved(false);

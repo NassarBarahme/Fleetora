@@ -18,14 +18,22 @@ for (const entry of fs.readdirSync(frontend, { withFileTypes: true })) {
   fs.cpSync(path.join(frontend, entry.name), path.join(target, entry.name), { recursive: true, errorOnExist: true });
 }
 fs.symlinkSync(path.join(frontend, 'node_modules'), path.join(target, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir');
-for (const [route, fixture] of [['app/app/test-child', 'protected-child'], ['app/test-ui', 'primitive-probe'], ['app/test-combobox', 'combobox-probe'], ['app/test-vehicle-brand', 'vehicle-brand-probe']]) {
+// Match the app's default bundler. The copy and dependency junction must share
+// a filesystem root, as in build-isolated.cjs; production config stays intact.
+fs.renameSync(path.join(target, 'next.config.ts'), path.join(target, 'next.config.base.ts'));
+fs.writeFileSync(path.join(target, 'next.config.ts'), `import base from './next.config.base';
+export default { ...base, turbopack: { ...base.turbopack, root: ${JSON.stringify(path.parse(target).root)} } };
+`, { flag: 'wx' });
+for (const [route, fixture] of [['app/app/test-child', 'protected-child'], ['app/test-ui', 'primitive-probe'], ['app/test-design', 'design-system-probe'], ['app/test-combobox', 'combobox-probe'], ['app/test-vehicle-brand', 'vehicle-brand-probe']]) {
   fs.mkdirSync(path.join(target, route), { recursive: true });
   fs.writeFileSync(path.join(target, route, 'page.tsx'), `export { default } from "@/tests/fixtures/${fixture}";\n`, { flag: 'wx' });
 }
 fs.writeFileSync(path.join(target, 'isolated.config.ts'), `import { defineConfig } from "@playwright/test";
 import base from "./playwright.config";
-export default defineConfig({ ...base, webServer: undefined, outputDir: "./isolated-results",
-  reporter: [["line"], ["json", { outputFile: "./isolated-report.json" }]],
+// Keep screenshots/traces outside the watched app so artifact writes cannot
+// invalidate the development server while the next interaction is running.
+export default defineConfig({ ...base, webServer: undefined, outputDir: ${JSON.stringify(`${target}-results`)},
+  reporter: [["line"], ["json", { outputFile: ${JSON.stringify(`${target}-report.json`)} }]],
   projects: [...(base.projects ?? []), { name: "harness", testDir: "./tests/harness", testMatch: "**/*.browser.spec.ts", use: base.projects?.find(project => project.name === "browser")?.use }],
 });\n`, { flag: 'wx' });
 

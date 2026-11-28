@@ -1,5 +1,6 @@
 ﻿"use client";
 
+import { Select } from "@/components/ui/select";
 import { useActionState, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -33,9 +34,9 @@ function SignupProgress({ currentStep }: { currentStep: 1 | 2 }) {
                 aria-hidden="true"
                 className={`grid size-8 shrink-0 place-items-center rounded-full border text-sm font-semibold ${
                   isCurrent
-                    ? "border-primary-hover bg-primary-hover text-primary-foreground"
+                    ? "border-brand-navy bg-brand-navy text-sidebar-foreground"
                     : isComplete
-                      ? "border-primary-hover bg-primary-hover text-primary-foreground"
+                      ? "border-success bg-success text-sidebar-foreground"
                       : "border-border bg-surface-secondary text-muted-foreground"
                 }`}
               >
@@ -47,7 +48,7 @@ function SignupProgress({ currentStep }: { currentStep: 1 | 2 }) {
               </span>
             </div>
             {step === 1 && (
-              <span aria-hidden="true" className={`mx-3 h-px min-w-3 flex-1 ${isComplete ? "bg-primary" : "bg-border"}`} />
+              <span aria-hidden="true" className={`mx-3 h-px min-w-3 flex-1 ${isComplete ? "bg-success" : "bg-border"}`} />
             )}
           </li>
         );
@@ -164,7 +165,7 @@ export function SignupForm() {
 
                     <div className="signup-field space-y-2">
                     <Label htmlFor="signup-currency" className="text-sm font-semibold">{t("Operating currency")}</Label>
-                    <select
+                    <Select
                       id="signup-currency"
                       name="currency"
                       dir="ltr"
@@ -175,7 +176,7 @@ export function SignupForm() {
                       className={`${inputStyles.input} ${styles["signup-field-input"]} flex h-12 w-full rounded-lg border bg-surface px-3 text-sm`}
                     >
                       {COMPANY_CURRENCIES.map((currency) => <option key={currency} value={currency}>{currency}</option>)}
-                    </select>
+                    </Select>
                     <p id="signup-currency-help" className="text-xs leading-4 text-muted-foreground">{t("Your company uses one currency for fees, COD and settlements.")}</p>
                     {errors?.currency && <p id="signup-currency-error" role="alert" className={`${authStyles["auth-feedback"]} text-danger-foreground`}>{tMessage(errors.currency)}</p>}
                     </div>
@@ -206,7 +207,7 @@ export function SignupForm() {
                         aria-label={showPassword ? t("Hide password") : t("Show password")}
                         aria-pressed={showPassword}
                         onClick={() => setShowPassword(!showPassword)}
-                        className={`${styles["signup-password-toggle"]} absolute end-2 top-2 size-8 min-h-8 rounded-lg border border-form-border bg-surface p-0 text-muted-foreground hover:bg-surface-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2`}
+                        className={`${styles["signup-password-toggle"]} absolute end-2 top-2 size-8 min-h-8 rounded-lg border border-form-border bg-surface p-0 text-muted-foreground hover:bg-surface-secondary hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`}
                       >
                         {showPassword ? <svg aria-hidden="true" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 3l18 18M10.6 10.6a2 2 0 0 0 2.8 2.8M9.9 5.2A11 11 0 0 1 12 5c5 0 8.5 4.5 9 7-.2 1.2-1.1 2.5-2.4 3.6M6.2 6.2C4 7.6 2.4 9.8 2 12c.5 2.5 4 7 10 7 1 0 2-.2 2.9-.5" /></svg> : <svg aria-hidden="true" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" /><circle cx="12" cy="12" r="3" /></svg>}
                       </Button>
@@ -214,7 +215,7 @@ export function SignupForm() {
                     <ul id="signup-password-help" aria-label={t("Password requirements")} className="flex flex-wrap gap-x-4 gap-y-1 pt-0.5 text-xs leading-4 text-muted-foreground">
                       {[{ label: "6+ characters" as const, met: Array.from(passwordValue).length >= 6 }, { label: "One uppercase letter" as const, met: /[A-Z]/.test(passwordValue) }].map((requirement) => {
                         const met = requirement.met;
-                        return <li key={requirement.label} className={`flex items-center gap-1.5 ${met ? "text-accent-foreground" : ""}`}><span aria-hidden="true" className={`grid size-4 place-items-center rounded-full ${met ? "bg-primary-hover text-primary-foreground" : "border border-form-border"}`}>{met ? <svg className="size-2.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 12 12"><path strokeLinecap="round" strokeLinejoin="round" d="m2 6 2.5 2.5L10 3" /></svg> : null}</span>{t(requirement.label)}</li>;
+                        return <li key={requirement.label} className={`flex items-center gap-1.5 ${met ? "text-accent-foreground" : ""}`}><span aria-hidden="true" className={`grid size-4 place-items-center rounded-full ${met ? "bg-success-background text-success" : "border border-form-border"}`}>{met ? <svg className="size-2.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 12 12"><path strokeLinecap="round" strokeLinejoin="round" d="m2 6 2.5 2.5L10 3" /></svg> : null}</span>{t(requirement.label)}</li>;
                       })}
                     </ul>
                     {errors?.password && <p id="signup-password-error" role="alert" className={`${authStyles["auth-feedback"]} text-danger-foreground`}>{tMessage(errors.password)}</p>}
@@ -222,11 +223,11 @@ export function SignupForm() {
                   </div>
 
                   <div className="space-y-3">
-                    <Button type="submit" className={`${authStyles["auth-primary-action"]} h-12 w-full rounded-lg text-sm font-semibold focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 motion-reduce:transition-none`}>
+                    <Button type="submit" variant="primary" className={`${authStyles["auth-primary-action"]} h-12 w-full rounded-lg text-sm font-semibold focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 motion-reduce:transition-none`}>
                       {pending ? <><span aria-hidden="true" className={`${authStyles["auth-spinner"]} size-4`} />{t("Creating account...")}</> : t("Create account")}
                     </Button>
-                    <p className="text-center text-[13px] leading-5 text-secondary-foreground">
-                      {t("Already have an account?")} <Link href="/login" className={`${authStyles["auth-text-link"]} rounded-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary`}>{t("Sign in")}</Link>
+                    <p className="text-center text-sm leading-5 text-secondary-foreground">
+                      {t("Already have an account?")} <Link href="/login" className={`${authStyles["auth-text-link"]} rounded-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring`}>{t("Sign in")}</Link>
                     </p>
                   </div>
                 </fieldset>

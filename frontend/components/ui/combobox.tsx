@@ -147,12 +147,12 @@ export function Combobox({
               setStatus("loading");
             }
           }}
-          className="min-h-10 w-full rounded-md border border-[var(--control-border)] bg-surface py-2 ps-3 pe-10 text-start text-sm focus-visible:outline-2 focus-visible:outline-primary disabled:opacity-50"
+          className="min-h-10 w-full rounded-md border border-[var(--control-border)] bg-surface py-2 ps-3 pe-10 text-start text-sm focus-visible:outline-2 focus-visible:outline-ring disabled:opacity-50"
         />
         {value && (
           <Primitive.Clear
             aria-label={t("Clear selection")}
-            className="absolute inset-y-0 end-0 flex w-10 items-center justify-center rounded-md focus-visible:outline-2 focus-visible:outline-primary"
+            className="absolute inset-y-0 end-0 flex w-10 items-center justify-center rounded-md focus-visible:outline-2 focus-visible:outline-ring"
           >
             <X aria-hidden className="size-4" />
           </Primitive.Clear>

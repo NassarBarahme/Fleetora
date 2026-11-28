@@ -39,15 +39,9 @@ Keep feature-specific code in its feature. Extract shared code when reuse or res
 
 ## 4. Use one design system
 
-- Read `DESIGN_SYSTEM.md` when present for implemented tokens, components, and layout rules.
-- Read `../.agents/design/FLEETORA_DESIGN_LANGUAGE.md` and `../.agents/design/FLEETORA_THEME.md` when present for intended visual direction and reference palette.
-- Use the active design system and shared tokens for implementation. Reference files must not create a second palette. If they conflict materially, identify the conflict before changing global styling; use established tokens for unrelated local work.
-- Preserve Fleetora's established navy/teal direction where implemented. Do not invent exact color values or replace the current theme from memory.
-- Reuse shared forms, buttons, tables, badges, dialogs, and navigation. Avoid arbitrary colors and inconsistent interaction patterns across screens.
-- Do not redesign unrelated areas or change shared primitives for one screen without assessing other consumers.
-- Keep product copy clear and relevant to the user's task. Do not expose implementation details in UI.
-- Do not use emojis in product UI or project documentation unless requested.
-- Apply relevant available frontend, UX, and design-system skills according to the root instructions; do not assume their files exist.
+- **UI-00:** All UI MUST follow docs/product/DESIGN_SYSTEM.md. Never hardcode colors, fonts or spacing; use tokens and components/ui. New patterns require updating DESIGN_SYSTEM.md first.
+- The [binding design law](../docs/product/DESIGN_SYSTEM.md) owns palette, typography, spacing, components, copy, RTL, dates and accessibility. Superseded design references are archived and are not requirements.
+- Reuse the shared primitives and assess their consumers before changing them. Preserve behavior outside the approved task.
 
 ## 5. Build usable, accessible screens
 

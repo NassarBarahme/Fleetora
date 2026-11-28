@@ -179,7 +179,7 @@ test("explicit retry refreshes known data after schema recovery while realtime i
 test("logout clears company data and disconnects the socket before revocation completes", async ({ page }) => {
   await page.goto("/app/live-map");
   await expect(page.getByRole("button", { name: /سائق الشركة الأولى/ })).toBeVisible();
-  await page.getByRole("button", { name: /Log out|تسجيل الخروج/ }).click();
+  await page.getByRole("banner").getByRole("button", { name: /Log out|تسجيل الخروج/ }).click();
   await expect.poll(() => logoutRequests).toBe(1);
   await expect(page.getByRole("complementary", { name: "قائمة السائقين" })).toHaveCount(0);
   await expect(page.getByRole("button", { name: /سائق الشركة الأولى/ })).toHaveCount(0);

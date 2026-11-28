@@ -41,8 +41,9 @@ test("popup is selectable inside a native modal and Arabic dates submit ISO", as
 }) => {
   await page.goto("/test-combobox");
   const date = page.getByLabel("من تاريخ", { exact: true });
-  await expect(date).toHaveValue("٢٧/١١/٢٠٢٦");
+  await expect(date).toHaveValue("27/11/2026");
   await date.fill("٢٨/١١/٢٠٢٦");
+  await expect(date).toHaveValue("28/11/2026");
   await expect(page.locator('input[name="from"]')).toHaveValue("2026-11-28");
   await date.fill("٣١/٠٢/٢٠٢٦");
   await expect(date).toHaveAttribute("aria-invalid", "true");

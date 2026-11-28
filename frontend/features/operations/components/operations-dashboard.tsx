@@ -114,7 +114,7 @@ function Dashboard({
                       render: (row) => (
                         <Link
                           href={`/app/parcels/${row.id}`}
-                          className="text-primary-hover underline"
+                          className="text-brand-navy-hover underline"
                         >
                           <bdi dir="ltr">
                             {valueText(row, "trackingNumber")}
@@ -222,7 +222,7 @@ function Dashboard({
                         key={event.id}
                       >
                         <Link
-                          className="text-sm text-primary-hover underline"
+                          className="text-sm text-brand-navy-hover underline"
                           href={`/app/parcels/${valueText(event, "shipmentId")}`}
                         >
                           <StateLabel value={valueText(event, "toStatus")} />
@@ -248,7 +248,7 @@ function Dashboard({
                       label: "Tracking number",
                       render: (row) => (
                         <Link
-                          className="text-primary-hover underline"
+                          className="text-brand-navy-hover underline"
                           href={`/app/parcels/${valueText(row, "shipmentId")}`}
                         >
                           {t("Parcel details")}

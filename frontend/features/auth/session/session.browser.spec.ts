@@ -37,7 +37,7 @@ test("supports local session recovery when browser coordination APIs are absent"
   await page.route("**/api/auth/session", route => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ user }) }));
   await page.goto("/app");
   await expect(page.getByText("Lifecycle Reader").first()).toBeVisible();
-  await page.getByRole("button", { name: "Log out" }).click();
+  await page.getByRole("button", { name: "Log out" }).filter({ visible: true }).first().click();
   await expect(page).toHaveURL(/\/login$/);
   await expect(page.getByText("Lifecycle Reader")).toHaveCount(0);
 });
@@ -118,7 +118,7 @@ test("hides identity and offers recovery when the logout action request fails", 
   await page.goto("/app");
   await expect(page.getByText("Lifecycle Reader").first()).toBeVisible();
   await page.route("**/app", route => route.request().method() === "POST" ? route.abort("failed") : route.continue());
-  await page.getByRole("button", { name: "Log out" }).click();
+  await page.getByRole("button", { name: "Log out" }).filter({ visible: true }).first().click();
   await expect(page.getByRole("heading", { name: "We couldn’t verify your session" })).toBeVisible();
   await expect(page.getByText("Lifecycle Reader")).toHaveCount(0);
   await page.getByRole("button", { name: "Try again" }).click();
@@ -130,7 +130,7 @@ test("keeps local logout usable when cross-tab messaging is unavailable", async 
   await page.route("**/api/auth/session", route => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ user }) }));
   await page.goto("/app");
   await expect(page.getByText("Lifecycle Reader").first()).toBeVisible();
-  await page.getByRole("button", { name: "Log out" }).click();
+  await page.getByRole("button", { name: "Log out" }).filter({ visible: true }).first().click();
   await expect(page).toHaveURL(/\/login$/);
   await expect(page.getByText("Lifecycle Reader")).toHaveCount(0);
 });

@@ -202,7 +202,7 @@ export function WarehouseEditor({
           >
             {t("Cancel")}
           </Button>
-          <Button type="submit" disabled={locked}>
+          <Button variant="primary" type="submit" disabled={locked}>
             {pending
               ? t("Saving...")
               : warehouse

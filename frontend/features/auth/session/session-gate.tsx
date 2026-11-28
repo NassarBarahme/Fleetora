@@ -131,7 +131,7 @@ export function SessionGate({ children, loginPath = '/login' }: { children: (use
           </p>
           <Button
             type="button"
-            className="mt-5 rounded-lg bg-primary-hover text-white hover:bg-primary-active active:bg-primary-active"
+            className="mt-5 rounded-lg bg-action-background text-primary-foreground hover:bg-primary-active active:bg-primary-active"
             onClick={() => revalidate(true)}
           >
             {t("Try again")}

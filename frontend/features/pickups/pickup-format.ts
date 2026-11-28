@@ -1,12 +1,10 @@
+import { formatDateTime } from "@/lib/date-time";
 import type { Locale } from "@/lib/i18n";
 
 /** Pickup times in the active language, to the minute (no seconds). */
 export function formatPickupTime(value: string | null | undefined, locale: Locale) {
   if (!value || !Number.isFinite(Date.parse(value))) return "—";
-  return new Intl.DateTimeFormat(locale, {
-    dateStyle: "medium",
-    timeStyle: "short",
-  }).format(new Date(value));
+  return formatDateTime(value, locale);
 }
 
 /** A window reads as one range, or a single "—" when it has not been set. */

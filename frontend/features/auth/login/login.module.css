@@ -21,7 +21,7 @@
 
 @media (min-width: 1024px) {
   .login-content {
-    padding-block: clamp(20px, 4vh, 36px);
+    padding-block: clamp(var(--space-5), 4vh, var(--space-9));
   }
 
   .login-route-panel::after {
@@ -30,7 +30,7 @@
     z-index: 1;
     inset-block: 0;
     inset-inline-end: 0;
-    width: 40px;
+    width: var(--space-10);
     pointer-events: none;
     background: linear-gradient(
       to right,

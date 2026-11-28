@@ -97,7 +97,7 @@ export function HeadquartersEditor({ initial, address, onCoordinate, onFocusLoca
         if (mounted.current) setBusy(false);
       }
     }} aria-busy={busy || locating}>
-      <div className="flex items-start justify-between border-b p-4"><div><h2 id="headquarters-title" className="flex items-center gap-2 text-base font-semibold"><FleetIcon name="building" className="size-5 text-primary-hover" />{t("Set company headquarters title")}</h2><p id="headquarters-description" className="mt-2 text-sm leading-6 text-muted-foreground">{t("Choose the location on the map or enter coordinates below. You can drag the marker to adjust its position.")}</p></div><Button type="button" size="icon" variant="ghost" aria-label={t("Close headquarters editor")} disabled={busy} onClick={onCancel}><FleetIcon name="close" /></Button></div>
+      <div className="flex items-start justify-between border-b p-4"><div><h2 id="headquarters-title" className="flex items-center gap-2 text-base font-semibold"><FleetIcon name="building" className="size-5 text-brand-navy-hover" />{t("Set company headquarters title")}</h2><p id="headquarters-description" className="mt-2 text-sm leading-6 text-muted-foreground">{t("Choose the location on the map or enter coordinates below. You can drag the marker to adjust its position.")}</p></div><Button type="button" size="icon" variant="ghost" aria-label={t("Close headquarters editor")} disabled={busy} onClick={onCancel}><FleetIcon name="close" /></Button></div>
       <div className="space-y-4 p-4">
         <div className="space-y-2">
           <Button type="button" variant="outline" className="min-h-11 w-full" disabled={locating || busy} onClick={useCurrentLocation}>

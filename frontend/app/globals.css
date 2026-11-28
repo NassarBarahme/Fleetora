@@ -1,35 +1,35 @@
 @import "tailwindcss";
 
 :root {
-  --brand-navy: #102A43;
+  --brand-navy: #0B1F33;
   --sidebar-navy: #0B1F33;
   --sidebar-foreground: #FFFFFF;
   --background: #F5F7FA;
-  --foreground: #172B4D;
+  --foreground: #0B1F33;
   --surface: #FFFFFF;
   --surface-secondary: #F5F7FA;
   --muted: #F5F7FA;
-  --muted-foreground: #62748A;
+  --muted-foreground: #526579;
   --border: #E3EAF0;
   --border-strong: #CBD5E1;
   --input: #E3EAF0;
   --form-border: #CBD5E1;
-  --primary: #0F9F95;
-  --primary-hover: #0B817A;
-  --primary-active: #0B817A;
-  --primary-subtle: #E6F5F3;
-  --primary-soft: #CDEBE7;
-  --primary-foreground: #FFFFFF;
+  --primary: #F5A524;
+  --primary-hover: #E08E0B;
+  --primary-active: #E08E0B;
+  --primary-subtle: #EAF0F6;
+  --primary-soft: #DCE6F0;
+  --primary-foreground: #0B1F33;
   --secondary: #F5F7FA;
-  --secondary-foreground: #102A43;
-  --accent: #E6F5F3;
-  --accent-foreground: #0B817A;
-  --success: #168A55;
-  --in-progress: #2878C7;
-  --warning: #C77B11;
-  --destructive: #C2414B;
+  --secondary-foreground: #0B1F33;
+  --accent: #EAF0F6;
+  --accent-foreground: #16324F;
+  --success: #166534;
+  --in-progress: #1E40AF;
+  --warning: #854D0E;
+  --destructive: #B42332;
   --destructive-foreground: #FFFFFF;
-  --danger-foreground: #C2414B;
+  --danger-foreground: #B42332;
   --danger-background: #FCEEEF;
   --danger-border: #F2C9CD;
   --success-background: #EAF6EF;
@@ -38,11 +38,65 @@
   --in-progress-border: #C9DDF1;
   --warning-background: #FBF3E7;
   --warning-border: #EED9B7;
-  --ring: #0F9F95;
+  --ring: #3273B5;
   --radius: 8px;
-  /* Accessible control roles use approved palette values, without changing brand teal. */
-  --action-background: var(--primary-hover);
+  /* OD-22: structural navy, restricted amber actions, separate semantic states. */
+  --action-background: var(--primary);
   --control-border: var(--muted-foreground);
+  --brand-navy-hover: #16324F;
+  --sidebar-muted: #9FB3C8;
+  --sidebar-border: #304559;
+  --danger-hover: #8E1C28;
+  --overlay: #0B1F338C;
+  --shadow-color: #0B1F3314;
+  --shadow-elevated-color: #0B1F3324;
+  --map-background: #EDF1F5;
+  --transparent: transparent;
+  --sidebar-scroll-thumb: #9FB3C880;
+  --sidebar-scroll-glow: #9FB3C840;
+  --space-0: 0;
+  --space-0-5: .125rem;
+  --space-1: .25rem;
+  --space-1-5: .375rem;
+  --space-2: .5rem;
+  --space-2-5: .625rem;
+  --space-3: .75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-9: 2.25rem;
+  --space-13: 3.25rem;
+  --space-14: 3.5rem;
+  --size-map-panel: 20rem;
+  --size-map-editor: 22.5rem;
+  --size-map-control-offset: 4.75rem;
+  --size-map-control-mobile-offset: 6.75rem;
+  --size-map-popup-min: 11.25rem;
+  --size-map-details-reserve: 9.375rem;
+  --size-map-editor-reserve: 6.25rem;
+  --size-workspace-name-max: 18rem;
+  --space-10: 2.5rem;
+  --space-11: 2.75rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --size-sidebar: 15.5rem;
+  --radius-full: 9999px;
+  --type-xs: .75rem;
+  --type-sm: .875rem;
+  --type-base: 1rem;
+  --type-lg: 1.125rem;
+  --type-xl: 1.25rem;
+  --type-2xl: 1.5rem;
+  --type-3xl: 1.875rem;
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --font-ui: var(--font-inter), sans-serif;
+  --font-arabic: var(--font-noto-sans-arabic), var(--font-inter), sans-serif;
   --motion-default: 180ms;
   --motion-easing: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
@@ -88,10 +142,23 @@
   --color-success-subtle: var(--success-background);
   --color-danger-subtle: var(--danger-background);
   --color-warning-subtle: var(--warning-background);
-  --color-warning-foreground: var(--foreground);
+  --color-warning-foreground: var(--warning);
   --color-ring: var(--ring);
   --color-action-background: var(--action-background);
-  --font-sans: var(--font-inter);
+  --color-control-border: var(--control-border);
+  --color-brand-navy-hover: var(--brand-navy-hover);
+  --color-sidebar-muted: var(--sidebar-muted);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-danger-hover: var(--danger-hover);
+  --spacing: .25rem;
+  --text-xs: var(--type-xs);
+  --text-sm: var(--type-sm);
+  --text-base: var(--type-base);
+  --text-lg: var(--type-lg);
+  --text-xl: var(--type-xl);
+  --text-2xl: var(--type-2xl);
+  --text-3xl: var(--type-3xl);
+  --font-sans: var(--font-ui);
   --radius-sm: 6px;
   --radius-md: var(--radius);
   --radius-lg: 10px;
@@ -108,6 +175,12 @@
   }
 
   html[lang="ar"] body {
-    font-family: var(--font-noto-sans-arabic), var(--font-inter), Tahoma, Arial, sans-serif;
+    font-family: var(--font-arabic);
   }
+}
+
+@layer base {
+  h1, h2, h3, h4 { color: var(--brand-navy); }
+  :focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+  [dir="rtl"] .tabular-nums, time { font-variant-numeric: tabular-nums; }
 }

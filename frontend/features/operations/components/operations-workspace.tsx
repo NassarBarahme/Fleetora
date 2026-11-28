@@ -1,4 +1,5 @@
 "use client";
+import { PageHeader } from "@/components/ui/page-header";
 import type { ReactNode } from "react";
 import { useProtectedSession } from "@/features/auth/session/session-context";
 import { useLocale, type TranslationKey } from "@/lib/i18n";
@@ -58,23 +59,5 @@ export function PageIntro({
   children?: ReactNode;
 }) {
   const { t } = useLocale();
-  return (
-    <div className="mb-6 flex flex-wrap items-start justify-between gap-4 border-b pb-6">
-      <div className="min-w-0">
-        <h2 className="text-2xl font-semibold leading-8 tracking-tight">
-          {t(title)}
-        </h2>
-        {description && (
-          <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">
-            {t(description)}
-          </p>
-        )}
-      </div>
-      {children && (
-        <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto">
-          {children}
-        </div>
-      )}
-    </div>
-  );
+  return <PageHeader title={t(title)} hint={description ? t(description) : undefined}>{children}</PageHeader>;
 }

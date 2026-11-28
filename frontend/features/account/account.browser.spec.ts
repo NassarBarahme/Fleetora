@@ -225,7 +225,7 @@ test("discards password drafts when verified identity changes and preserves logo
   await expect(page.getByRole("main").getByText("Another Reader", { exact: true })).toBeVisible();
   await expect(page.getByLabel("Current password", { exact: true })).toHaveValue("");
   await expect(page.getByText("Amina Hassan")).toHaveCount(0);
-  await page.getByRole("button", { name: "Log out", exact: true }).click();
+  await page.getByRole("button", { name: "Log out", exact: true }).filter({ visible: true }).first().click();
   await expect(page).toHaveURL(/\/login$/);
   expect(updates).toHaveLength(0);
 });

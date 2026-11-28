@@ -10,7 +10,7 @@ export default function PrimitiveProbe() {
   return <main className="bg-surface p-8">
     <form onSubmit={event => { event.preventDefault(); setSubmissions(value => value + 1); }}>
       <Label htmlFor="probe-input">Probe value</Label><Input id="probe-input" />
-      <Button>Local action</Button><Button type="submit">Save probe</Button>
+      <Button>Local action</Button><Button type="submit" variant="primary">Save probe</Button>
       <Button asChild><a href="#probe-result">Probe link</a></Button>
       <Button disabled>Unavailable action</Button>
       <p id="probe-result" role="status">Submissions: {submissions}</p>

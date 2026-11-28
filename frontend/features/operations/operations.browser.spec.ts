@@ -1,3 +1,4 @@
+import { chooseSelect } from "@/tests/select-option";
 import { createServer, type Server } from "node:http";
 import { expect, test } from "@playwright/test";
 import { translate } from "@/lib/i18n";
@@ -568,9 +569,8 @@ test("Other return reason requires explanation before sending", async ({
     name: "Initiate return",
     exact: true,
   });
-  await dialog
-    .getByLabel("Return reason", { exact: true })
-    .selectOption("OTHER");
+  await chooseSelect(dialog
+    .getByLabel("Return reason", { exact: true }), "OTHER");
   await dialog.getByRole("button", { name: "Save", exact: true }).click();
   expect(writes).toHaveLength(0);
   await expect(dialog.getByLabel("Note", { exact: true })).toHaveAttribute(
@@ -676,7 +676,7 @@ test("UX-01 assignment and receiving warehouse searches keep focus", async ({ pa
   parcelOverride = { status: "CREATED", custody: "MERCHANT" };
   await page.reload();
   await page.getByRole("button", { name: "Change status", exact: true }).click();
-  await page.getByRole("dialog").getByLabel("Next status", { exact: true }).selectOption("RECEIVED_FROM_MERCHANT");
+  await chooseSelect(page.getByRole("dialog").getByLabel("Next status", { exact: true }), "RECEIVED_FROM_MERCHANT");
   await typeWithoutNavigation(page, page.getByRole("dialog").getByRole("combobox", { name: "Receiving warehouse", exact: true }));
 });
 test("UX-01 editing a parcel keeps the selected merchant while searching", async ({ page }) => {
@@ -744,9 +744,8 @@ test("parcel details display persisted custody and timeline; return cancellation
     name: "Initiate return",
     exact: true,
   });
-  await dialog
-    .getByLabel("Return reason", { exact: true })
-    .selectOption("OTHER");
+  await chooseSelect(dialog
+    .getByLabel("Return reason", { exact: true }), "OTHER");
   await dialog.getByRole("button", { name: "Cancel", exact: true }).click();
   expect(writes).toHaveLength(0);
 });
@@ -823,7 +822,7 @@ test("actual merchant payout has its own confirmation, amount and payment refere
     .fill("FICTIONAL-PAYMENT-RECEIPT");
   await dialog
     .getByLabel("Actual payment date", { exact: true })
-    .fill("2026-10-21T12:00");
+    .fill("21/10/2026 12:00 PM");
   await dialog.getByRole("button", { name: "Save", exact: true }).click();
   await expect(dialog).toHaveCount(0);
   expect(writes[0]).toMatchObject({

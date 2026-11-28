@@ -121,7 +121,7 @@ function PricingDirectory({
                 </p>
               ) : (
                 <div
-                  className="overflow-x-auto rounded-lg border bg-surface focus-visible:outline-2 focus-visible:outline-primary"
+                  className="overflow-x-auto rounded-lg border bg-surface focus-visible:outline-2 focus-visible:outline-ring"
                   role="region"
                   aria-label={kind === "zones" ? c.zones : c.plans}
                   tabIndex={0}

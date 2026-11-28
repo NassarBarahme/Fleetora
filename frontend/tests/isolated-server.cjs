@@ -5,7 +5,7 @@ process.on('message', message => {
   if (message === 'stop') process.exit(0); // Terminates only this owned test process.
 });
 import('next').then(async ({ default: next }) => {
-  const app = next({ dev: true, dir: process.cwd(), hostname: 'localhost', port: 3100, webpack: true });
+  const app = next({ dev: true, dir: process.cwd(), hostname: 'localhost', port: 3100, turbopack: true });
   await app.prepare();
   const handler = app.getRequestHandler();
   const server = http.createServer((request, response) => handler(request, response));

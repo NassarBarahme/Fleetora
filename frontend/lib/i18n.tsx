@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
 import { Globe } from "lucide-react";
+import { DirectionProvider } from "@base-ui/react/direction-provider";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { operationsArabic, operationsEnglish } from "@/features/operations/operations-copy";
@@ -1017,7 +1018,7 @@ export function LocaleProvider({ initialLocale, children }: { initialLocale: Loc
     tMessage: (message) => translateMessage(locale, message),
   }), [locale]);
 
-  return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>;
+  return <LocaleContext.Provider value={value}><DirectionProvider direction={locale === "ar" ? "rtl" : "ltr"}>{children}</DirectionProvider></LocaleContext.Provider>;
 }
 
 export function useLocale() {
@@ -1054,8 +1055,9 @@ export function LanguageSwitcher({ tone = "surface" }: { tone?: "surface" | "inv
     >
       <DropdownMenu dir={locale === "ar" ? "rtl" : "ltr"} onOpenChange={open => { menuOpen.current = open; if (open) setTooltipDismissed(true); }}>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" aria-label={t("Language")} aria-describedby={tooltipId} title={t("Language")} onBlur={() => { if (!menuOpen.current) setTooltipDismissed(false); }} className={`size-10 shrink-0 [&_svg]:size-5 ${tone === "inverse" ? "text-sidebar-foreground hover:bg-white/10 hover:text-sidebar-foreground focus-visible:ring-offset-sidebar-navy" : "text-foreground hover:bg-primary-subtle hover:text-primary-hover"}`}>
-            <Globe aria-hidden="true" />
+          <Button variant="ghost" size={tone === "inverse" ? "default" : "icon"} aria-label={t("Language")} aria-describedby={tooltipId} title={t("Language")} onBlur={() => { if (!menuOpen.current) setTooltipDismissed(false); }} className={`min-h-10 shrink-0 [&_svg]:size-5 ${tone === "inverse" ? "size-10 p-0 text-sidebar-foreground hover:bg-brand-navy-hover hover:text-sidebar-foreground focus-visible:ring-offset-sidebar-navy sm:w-auto sm:px-3" : "size-10 text-foreground hover:bg-primary-subtle hover:text-brand-navy-hover"}`}>
+            <Globe aria-hidden="true" className={tone === "inverse" ? "hidden sm:block" : undefined} />
+            {tone === "inverse" && <><span className="sm:hidden">{locale === "ar" ? "ع" : "EN"}</span><span className="hidden sm:inline">{locale === "ar" ? "العربية" : "English"}</span></>}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" aria-label={t("Language")}>

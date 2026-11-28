@@ -1,3 +1,4 @@
+import { chooseSelect } from "@/tests/select-option";
 import { typeWithoutNavigation } from "@/tests/focus-retention";
 import { translate, type Locale } from "@/lib/i18n";
 import { createServer, type Server } from "node:http";
@@ -870,7 +871,7 @@ test("legacy model without manufacturer and mismatched pair survive unrelated ed
     await expect(
       dialog.getByRole("combobox", { name: "Model", exact: true }),
     ).toBeEnabled();
-    await dialog.getByLabel("Vehicle type").selectOption("VAN");
+    await chooseSelect(dialog.getByLabel("Vehicle type"), "VAN");
     await dialog.getByRole("button", { name: "Save changes" }).click();
     await expect(dialog).not.toBeVisible();
   }
@@ -940,7 +941,7 @@ test("blank legacy identity does not block an unrelated edit", async ({
   await expect(
     dialog.getByRole("combobox", { name: "Model", exact: true }),
   ).toBeDisabled();
-  await dialog.getByLabel("Vehicle type").selectOption("VAN");
+  await chooseSelect(dialog.getByLabel("Vehicle type"), "VAN");
   await dialog.getByRole("button", { name: "Save changes" }).click();
   await expect(dialog).not.toBeVisible();
   expect(vehicles[0].type).toBe("VAN");

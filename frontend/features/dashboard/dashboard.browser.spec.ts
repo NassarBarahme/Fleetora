@@ -70,6 +70,8 @@ async function expectWorkspaceEdges(page: Page, locale: "en" | "ar", desktop: bo
 }
 
 async function expandNavigationGroups(nav: Locator) {
+  await expect(nav).toBeVisible();
+  await expect(nav.getByRole("link").first()).toBeVisible();
   for (const group of await nav.getByRole("button", { expanded: false }).all()) await group.click();
 }
 
@@ -371,7 +373,7 @@ test("shows validated company identity and only implemented navigation", async (
   await expect(page.getByText("amina@example.com", { exact: true })).toHaveCount(0);
   await expect(page.getByRole("complementary", { name: "Workspace sidebar" }).getByText("Company administrator", { exact: true })).toBeVisible();
   await expect(page.getByRole("link", { name: "Overview" })).toHaveAttribute("aria-current", "page");
-  await expect(page.getByRole("button", { name: "Log out" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Log out" }).filter({ visible: true }).first()).toBeVisible();
   await expect(page.getByText(/shipments today|drivers active|delivery rate/i)).toHaveCount(0);
   await expect(page.getByText(/operational information will appear here/i)).toHaveCount(0);
   const destinations = await page.locator("a[href^='/']").evaluateAll((links) =>
@@ -550,7 +552,7 @@ test("adapts at supported viewport widths and keeps long identities from overflo
       await expect(page.getByRole("button", { name: "Open navigation" })).toBeVisible();
     } else {
       await expect(page.getByRole("complementary", { name: "Workspace sidebar" })).toBeVisible();
-      await expect(page.getByRole("button", { name: "Log out" })).toBeVisible();
+      await expect(page.getByRole("button", { name: "Log out" }).filter({ visible: true }).first()).toBeVisible();
     }
   }
 });

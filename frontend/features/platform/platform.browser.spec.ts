@@ -1,3 +1,4 @@
+import { chooseSelect } from "@/tests/select-option";
 import { createServer, type Server } from "node:http";
 import { expect, test } from "@playwright/test";
 const id = "10000000-0000-4000-8000-000000000001";
@@ -187,12 +188,11 @@ for (const locale of ["en", "ar"] as const)
         exact: true,
       })
       .fill("support@example.invalid");
-    await page
+    await chooseSelect(page
       .getByLabel(locale === "ar" ? "دور المنصة" : "Platform role", {
         exact: true,
       })
-      .first()
-      .selectOption("SUPPORT");
+      .first(), "SUPPORT");
     await page
       .getByRole("button", {
         name: locale === "ar" ? "إرسال دعوة" : "Send invitation",

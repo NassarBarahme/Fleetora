@@ -28,16 +28,16 @@
 .auth-spinner {
   display: inline-block;
   flex: none;
-  border: 2px solid currentColor;
+  border: var(--space-0-5) solid currentColor;
   border-right-color: transparent;
-  border-radius: 9999px;
+  border-radius: var(--radius-full);
 }
 
 .auth-text-link {
   color: var(--secondary-foreground);
   text-decoration: underline;
   text-decoration-color: var(--primary);
-  text-underline-offset: 4px;
+  text-underline-offset: var(--space-1);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -64,7 +64,7 @@
 }
 
 @keyframes auth-enter {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(var(--space-2)); }
   to { opacity: 1; transform: translateY(0); }
 }
 @keyframes auth-feedback {
@@ -72,7 +72,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 @keyframes auth-success-state {
-  from { opacity: 0; transform: translateY(4px); }
+  from { opacity: 0; transform: translateY(var(--space-1)); }
   to { opacity: 1; transform: translateY(0); }
 }
 @keyframes auth-success-mark {

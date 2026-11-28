@@ -29,7 +29,7 @@ export function VehicleBrandLogo({
   return (
     <span
       className={cn(
-        "inline-flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-md border border-border bg-white p-2.5 text-brand-navy",
+        "inline-flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-md border border-border bg-surface p-2.5 text-brand-navy",
         className,
       )}
     >

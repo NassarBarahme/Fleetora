@@ -200,7 +200,7 @@ export function DriverEditor({
           >
             {t("Cancel")}
           </Button>
-          <Button type="submit" disabled={locked}>
+          <Button variant="primary" type="submit" disabled={locked}>
             {pending
               ? t("Saving...")
               : driver

@@ -69,7 +69,7 @@ export function ChangePasswordForm({ userId }: { userId: string }) {
               </div>
             );
           })}
-          <Button type="submit" className="w-full sm:w-auto">{pending ? t("Changing password...") : t("Change password")}</Button>
+          <Button variant="primary" type="submit" className="w-full sm:w-auto">{pending ? t("Changing password...") : t("Change password")}</Button>
         </fieldset>
         {(state.status === "uncertain" || state.status === "error" && !state.fieldErrors) && (
           <Link href="/login" className="inline-flex min-h-10 items-center text-sm font-medium text-accent-foreground underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{t("Sign in again")}</Link>

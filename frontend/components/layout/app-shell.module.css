@@ -1,23 +1,28 @@
 .headerTitle {
+  color: var(--sidebar-foreground);
   min-width: 0;
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--type-base);
+  font-weight: var(--weight-semibold);
   letter-spacing: -.015em;
 }
 
 .workspaceName {
   display: flex;
   align-items: center;
-  gap: .5rem;
+  gap: var(--space-2);
   min-width: 0;
-  max-width: min(24vw, 18rem);
-  color: var(--muted-foreground);
-  font-size: .75rem;
-  line-height: 1.25rem;
+  max-width: min(18vw, var(--space-20));
+  color: var(--sidebar-muted);
+  font-size: var(--type-xs);
+  line-height: var(--space-5);
+}
+
+@media (min-width: 640px) {
+  .workspaceName { max-width: min(24vw, var(--size-workspace-name-max)); }
 }
 
 .navigation {
@@ -25,15 +30,15 @@
   flex: 1;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: .5rem .75rem 1rem;
+  padding: var(--space-2) var(--space-3) var(--space-4);
   scrollbar-width: thin;
-  scrollbar-color: rgb(255 255 255 / .35) transparent;
+  scrollbar-color: var(--sidebar-scroll-thumb) transparent;
   /* Scroll shadows: the edge glow appears only while more items are hidden in that direction. */
   background:
-    linear-gradient(var(--sidebar-navy) 30%, rgb(11 31 51 / 0)) top / 100% 2.5rem no-repeat local,
-    linear-gradient(rgb(11 31 51 / 0), var(--sidebar-navy) 70%) bottom / 100% 2.5rem no-repeat local,
-    linear-gradient(rgb(255 255 255 / .16), rgb(255 255 255 / 0)) top / 100% 1rem no-repeat scroll,
-    linear-gradient(rgb(255 255 255 / 0), rgb(255 255 255 / .16)) bottom / 100% 1rem no-repeat scroll;
+    linear-gradient(var(--sidebar-navy) 30%, var(--transparent)) top / 100% var(--space-10) no-repeat local,
+    linear-gradient(var(--transparent), var(--sidebar-navy) 70%) bottom / 100% var(--space-10) no-repeat local,
+    linear-gradient(var(--sidebar-scroll-glow), var(--transparent)) top / 100% var(--space-4) no-repeat scroll,
+    linear-gradient(var(--transparent), var(--sidebar-scroll-glow)) bottom / 100% var(--space-4) no-repeat scroll;
   background-color: var(--sidebar-navy);
 }
 
@@ -41,16 +46,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: .5rem;
+  gap: var(--space-2);
   width: 100%;
-  min-height: 40px;
-  margin-top: .5rem;
-  border-radius: 6px;
-  padding: .5rem .75rem;
-  color: rgb(255 255 255 / .8);
-  font-size: .75rem;
-  font-weight: 600;
-  line-height: 1rem;
+  min-height: var(--space-10);
+  margin-top: var(--space-2);
+  border-radius: var(--space-1-5);
+  padding: var(--space-2) var(--space-3);
+  color: var(--sidebar-muted);
+  font-size: var(--type-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--space-4);
   text-align: start;
   cursor: pointer;
 }
@@ -61,18 +66,18 @@
 }
 
 .navigationGroup:hover {
-  background: rgb(255 255 255 / .06);
+  background: var(--brand-navy-hover);
   color: var(--sidebar-foreground);
 }
 
 .navigationGroup:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
+  outline: var(--space-0-5) solid var(--ring);
+  outline-offset: var(--space-0-5);
 }
 
 .navigationGroup svg {
-  width: 16px;
-  height: 16px;
+  width: var(--space-4);
+  height: var(--space-4);
   flex-shrink: 0;
 }
 
@@ -89,33 +94,33 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: .75rem;
-  min-height: 44px;
+  gap: var(--space-3);
+  min-height: var(--space-11);
   width: 100%;
   border: 0;
   border-radius: var(--radius);
-  padding: .625rem .75rem;
-  color: rgb(255 255 255 / .8);
+  padding: var(--space-2-5) var(--space-3);
+  color: var(--sidebar-muted);
   text-align: start;
-  font-size: .875rem;
-  font-weight: 500;
+  font-size: var(--type-sm);
+  font-weight: var(--weight-medium);
   outline: none;
   transition: background-color var(--motion-default), color var(--motion-default);
 }
 
 .sidebarItem:hover {
-  background: rgb(255 255 255 / .06);
+  background: var(--brand-navy-hover);
   color: var(--sidebar-foreground);
 }
 
 .sidebarItem:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
+  outline: var(--space-0-5) solid var(--ring);
+  outline-offset: var(--space-0-5);
 }
 
 .sidebarItem svg {
-  width: 20px;
-  height: 20px;
+  width: var(--space-5);
+  height: var(--space-5);
   flex-shrink: 0;
 }
 
@@ -127,26 +132,26 @@
 }
 
 .active {
-  background: var(--primary-subtle);
-  color: var(--brand-navy);
+  background: var(--brand-navy-hover);
+  color: var(--sidebar-foreground);
 }
 
 .active:hover {
-  background: var(--primary-soft);
-  color: var(--brand-navy);
+  background: var(--brand-navy-hover);
+  color: var(--sidebar-foreground);
 }
 
 .active svg {
-  color: var(--primary-hover);
+  color: var(--sidebar-foreground);
 }
 
 .active::before {
   content: "";
   position: absolute;
   inset-inline-start: 0;
-  inset-block: 10px;
-  width: 2px;
-  border-radius: 2px;
+  inset-block: var(--space-2-5);
+  width: var(--space-0-5);
+  border-radius: var(--space-0-5);
   background: var(--primary);
 }
 
@@ -154,26 +159,26 @@
   display: grid;
   place-items: center;
   flex-shrink: 0;
-  width: 36px;
-  height: 36px;
-  border: 1px solid rgb(255 255 255 / .15);
-  border-radius: 9999px;
+  width: var(--space-9);
+  height: var(--space-9);
+  border: 1px solid var(--sidebar-border);
+  border-radius: var(--radius-full);
   background: var(--brand-navy);
   color: var(--sidebar-foreground);
-  font-size: .75rem;
-  font-weight: 600;
+  font-size: var(--type-xs);
+  font-weight: var(--weight-semibold);
 }
 
 @media (min-width: 1024px) {
   .navigation .sidebarItem {
-    min-height: 36px;
-    padding-block: .375rem;
+    min-height: var(--space-9);
+    padding-block: var(--space-1-5);
   }
 
   .navigation .navigationGroup {
-    min-height: 32px;
-    margin-top: .25rem;
-    padding-block: .375rem;
+    min-height: var(--space-8);
+    margin-top: var(--space-1);
+    padding-block: var(--space-1-5);
   }
 
 }

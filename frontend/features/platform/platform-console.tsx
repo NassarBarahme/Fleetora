@@ -1,4 +1,6 @@
 "use client";
+import { formatDateTime } from "@/lib/date-time";
+import { Select } from "@/components/ui/select";
 import Link from "next/link";
 import {
   useCallback,
@@ -250,9 +252,10 @@ function Console() {
     <div className="min-h-svh bg-background text-foreground">
       <header className="border-b border-border bg-sidebar-navy px-4 py-4 text-sidebar-foreground sm:px-8">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4">
-          <Link href="/platform" className="text-lg font-semibold text-primary">
+          <Link href="/platform" className="text-lg font-semibold text-sidebar-foreground">
             Fleetora
           </Link>
+          <span className="rounded-md border border-sidebar-border px-2 py-1 text-xs text-sidebar-muted">Fleetora Platform</span>
           <div className="flex items-center gap-4">
             {identity && identity.role !== "BILLING" && <Link href="/platform/companies">{c("Companies", "الشركات")}</Link>}
             <LanguageSwitcher tone="inverse" />
@@ -332,7 +335,7 @@ function Console() {
                     <Label htmlFor="platform-role">
                       {c("Platform role", "دور المنصة")}
                     </Label>
-                    <select
+                    <Select
                       id="platform-role"
                       name="role"
                       defaultValue="SUPPORT"
@@ -343,9 +346,9 @@ function Console() {
                           {roleName(role)}
                         </option>
                       ))}
-                    </select>
+                    </Select>
                   </div>
-                  <Button type="submit">
+                  <Button variant="primary" type="submit">
                     {c("Send invitation", "إرسال دعوة")}
                   </Button>
                 </fieldset>
@@ -475,8 +478,8 @@ function Console() {
                               : "إصدار دعوة",
                       )}
                     </span>
-                    <time dateTime={event.createdAt}>
-                      {new Date(event.createdAt).toLocaleString(locale)}
+                    <time dir="ltr" dateTime={event.createdAt}>
+                      {formatDateTime(event.createdAt, locale)}
                     </time>
                   </li>
                 ))}
@@ -522,7 +525,7 @@ function Member({
         <Label htmlFor={`role-${member.id}`}>
           {c("Platform role", "دور المنصة")}
         </Label>
-        <select
+        <Select
           id={`role-${member.id}`}
           className="h-10 rounded-md border border-border bg-surface px-3"
           disabled={busy}
@@ -536,7 +539,7 @@ function Member({
               {roleName(role)}
             </option>
           ))}
-        </select>
+        </Select>
       </div>
       <Label className="flex min-h-10 items-center gap-2">
         <input

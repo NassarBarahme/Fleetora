@@ -126,7 +126,7 @@ function FleetoraBrand({ lightSurface = false }: { lightSurface?: boolean }) {
           className={lightSurface ? "size-7 object-contain" : "size-9 object-contain"}
         />
       </span>
-      <span className={`${lightSurface ? "hidden sm:block" : ""} truncate text-base font-semibold tracking-tight ${lightSurface ? "text-foreground" : "text-white"}`}>
+      <span className={`${lightSurface ? "hidden sm:block" : ""} truncate text-base font-semibold tracking-tight ${lightSurface ? "text-foreground" : "text-sidebar-foreground"}`}>
         Fleetora
       </span>
     </div>
@@ -157,12 +157,12 @@ function SidebarAccount({ user, accountActions, onNavigate }: { user: SessionUse
         ? t("Merchant")
         : user.role === "OPERATIONS" ? t("Operations") : user.role === "WAREHOUSE" ? t("Warehouse staff") : t("Accountant");
   return (
-    <div className="min-w-0 shrink-0 border-t border-white/10 px-3 pt-3 pb-3">
+    <div className="min-w-0 shrink-0 border-t border-sidebar-border px-3 pt-3 pb-3">
       <div className="mb-2 flex min-w-0 items-center gap-3 px-3">
         <span aria-hidden="true" className={styles.accountAvatar}>{user.name.trim().split(/\s+/).slice(0, 2).map(part => Array.from(part)[0]).join("")}</span>
         <div className="min-w-0">
-          <p className="truncate text-sm font-medium text-white" title={user.name}>{user.name}</p>
-          <p className="mt-1 truncate text-xs text-sidebar-foreground/80">{roleLabel}</p>
+          <p className="truncate text-sm font-medium text-sidebar-foreground" title={user.name}>{user.name}</p>
+          <p className="mt-1 truncate text-xs text-sidebar-muted">{roleLabel}</p>
         </div>
       </div>
       <NavigationLink item={{ href: "/app/account", label: "Account & security", icon: Settings2, group: null }} onNavigate={onNavigate} />
@@ -176,8 +176,8 @@ function MobileWorkspaceContext({ user }: { user: SessionUser }) {
   const workspaceName = user.company?.name ?? t("Platform administration");
 
   return (
-    <div className="mx-5 mt-4 min-w-0 border-b border-white/10 px-1 pb-4">
-      <p className="break-words text-sm font-medium leading-5 text-white">
+    <div className="mx-5 mt-4 min-w-0 border-b border-sidebar-border px-1 pb-4">
+      <p className="break-words text-sm font-medium leading-5 text-sidebar-foreground">
         {workspaceName}
       </p>
     </div>
@@ -210,7 +210,7 @@ function MobileNavigation({ user, accountActions }: { user: SessionUser; account
         aria-haspopup="dialog"
         aria-expanded={open}
         onClick={() => setOpen(true)}
-        className="size-10 rounded-md text-foreground hover:bg-secondary focus-visible:ring-2 focus-visible:ring-primary"
+        className="size-10 rounded-md text-sidebar-foreground hover:bg-brand-navy-hover hover:text-sidebar-foreground focus-visible:ring-2 focus-visible:ring-ring"
       >
         <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" className="size-5">
           <path d="M3.25 5.25h13.5M3.25 10h13.5M3.25 14.75h13.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
@@ -224,7 +224,7 @@ function MobileNavigation({ user, accountActions }: { user: SessionUser; account
         className="fixed inset-y-0 start-0 end-auto m-0 h-dvh max-h-none w-72 max-w-[84vw] border-0 bg-sidebar-navy p-0 text-sidebar-foreground shadow-lg backdrop:bg-sidebar-navy/55"
       >
         <div className="flex h-full flex-col pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]">
-          <div className="flex h-16 shrink-0 items-center justify-between border-b border-white/10 px-5">
+          <div className="flex h-16 shrink-0 items-center justify-between border-b border-sidebar-border px-5">
             <h2 id="mobile-navigation-title" className="sr-only">{t("Open navigation")}</h2>
             <FleetoraBrand />
             <Button
@@ -234,7 +234,7 @@ function MobileNavigation({ user, accountActions }: { user: SessionUser; account
               aria-label={t("Close navigation")}
               autoFocus
               onClick={() => setOpen(false)}
-              className="size-10 rounded-md text-white hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-sidebar-navy"
+              className="size-10 rounded-md text-sidebar-foreground hover:bg-brand-navy-hover hover:text-sidebar-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-sidebar-navy"
             >
               <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" className="size-5">
                 <path d="m5 5 10 10M15 5 5 15" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
@@ -252,8 +252,8 @@ function MobileNavigation({ user, accountActions }: { user: SessionUser; account
 
 function DesktopSidebar({ user, accountActions }: { user: SessionUser; accountActions: ReactNode }) {
   return (
-    <aside aria-label="Workspace sidebar" className="sticky top-0 hidden h-dvh min-h-0 w-[248px] shrink-0 flex-col bg-sidebar-navy text-sidebar-foreground lg:flex">
-      <div className="flex h-16 shrink-0 items-center border-b border-white/10 px-6">
+    <aside aria-label="Workspace sidebar" className="sticky top-0 hidden h-dvh min-h-0 w-[var(--size-sidebar)] shrink-0 flex-col bg-sidebar-navy text-sidebar-foreground lg:flex">
+      <div className="flex h-16 shrink-0 items-center border-b border-sidebar-border px-6">
         <FleetoraBrand />
       </div>
       <WorkspaceNavigation user={user} />
@@ -291,18 +291,19 @@ export function AppShell({ user, accountActions, children }: { user: SessionUser
     <div className={`flex min-w-0 w-full bg-background text-foreground ${mapPage ? "h-dvh overflow-hidden" : "min-h-svh"}`}>
       <a
         href="#main-content"
-        className="sr-only z-50 rounded-md bg-surface px-4 py-3 font-medium text-foreground shadow-md outline-none focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus-visible:ring-2 focus-visible:ring-primary"
+        className="sr-only z-50 rounded-md bg-surface px-4 py-3 font-medium text-foreground shadow-md outline-none focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus-visible:ring-2 focus-visible:ring-ring"
       >
         {t("Skip to content")}
       </a>
       <DesktopSidebar user={user} accountActions={accountActions} />
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex h-16 shrink-0 items-center border-b border-border bg-surface px-4 sm:px-6 lg:px-8">
+        <header className="flex h-16 shrink-0 items-center border-b border-sidebar-border bg-sidebar-navy px-4 text-sidebar-foreground sm:px-6 lg:px-8">
           <div className="flex w-full min-w-0 items-center gap-3">
             <h1 className={styles.headerTitle} title={pageTitle}>{pageTitle}</h1>
             <div className="ms-auto flex min-w-0 shrink-0 items-center gap-2 sm:gap-3">
               <WorkspaceContext user={user} />
-              <LanguageSwitcher />
+              <LanguageSwitcher tone="inverse" />
+              <div>{accountActions}</div>
               <div className="lg:hidden">
                 <MobileNavigation user={user} accountActions={accountActions} />
               </div>

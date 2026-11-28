@@ -1,5 +1,8 @@
 "use client";
 
+import { StatusBadge } from "@/components/ui/status-badge";
+import { formatDateTime } from "@/lib/date-time";
+import { Select } from "@/components/ui/select";
 import {
   useEffect,
   useId,
@@ -183,7 +186,7 @@ const words = {
 type Copy = (typeof words)["en"];
 
 const controlStyle =
-  "min-h-10 w-full rounded-md border border-input bg-surface px-3 py-2 text-start text-sm focus-visible:outline-2 focus-visible:outline-primary disabled:opacity-50";
+  "min-h-10 w-full rounded-md border border-input bg-surface px-3 py-2 text-start text-sm focus-visible:outline-2 focus-visible:outline-ring disabled:opacity-50";
 
 export function StaffDirectory() {
   const { user } = useProtectedSession();
@@ -351,11 +354,7 @@ function TeamWorkspace({ scope }: { scope: StaffScope }) {
     }
   }
 
-  const formatDate = (value: string) =>
-    new Intl.DateTimeFormat(locale, {
-      dateStyle: "medium",
-      timeStyle: "short",
-    }).format(new Date(value));
+  const formatDate = (value: string) => formatDateTime(value, locale);
 
   return (
     <div className="mx-auto w-full min-w-0 max-w-6xl">
@@ -407,7 +406,7 @@ function TeamWorkspace({ scope }: { scope: StaffScope }) {
             </div>
             <div className="space-y-2">
               <Label htmlFor={`${id}-role`}>{copy.role}</Label>
-              <select
+              <Select
                 id={`${id}-role`}
                 className={controlStyle}
                 value={role}
@@ -425,7 +424,7 @@ function TeamWorkspace({ scope }: { scope: StaffScope }) {
                     {copy[value]}
                   </option>
                 ))}
-              </select>
+              </Select>
               <p
                 id={`${id}-role-help`}
                 className="text-xs leading-5 text-muted-foreground"
@@ -434,6 +433,7 @@ function TeamWorkspace({ scope }: { scope: StaffScope }) {
               </p>
             </div>
             <Button
+              variant="primary"
               type="submit"
               disabled={busy || !result || !email.trim() || Boolean(issued)}
               aria-describedby={issued ? `${id}-invite-locked` : undefined}
@@ -586,7 +586,7 @@ function TeamWorkspace({ scope }: { scope: StaffScope }) {
                               if (next) changeMemberRole(member.id, next);
                             }}
                           >
-                            <select
+                            <Select
                               key={member.role}
                               name="role"
                               className={controlStyle}
@@ -603,7 +603,7 @@ function TeamWorkspace({ scope }: { scope: StaffScope }) {
                                   {copy[role]}
                                 </option>
                               ))}
-                            </select>
+                            </Select>
                             <Button
                               type="submit"
                               variant="outline"
@@ -702,12 +702,12 @@ function TeamWorkspace({ scope }: { scope: StaffScope }) {
                             <bdi dir="ltr">{invitation.email}</bdi>
                           </p>
                           <p className="text-sm text-muted-foreground">
-                            {copy[invitation.role]} · {copy[invitation.state]}
+                            {copy[invitation.role]} · <StatusBadge value={invitation.state}>{copy[invitation.state]}</StatusBadge>
                           </p>
                           {invitation.state === "PENDING" && (
                             <p className="text-xs text-muted-foreground">
                               {copy.expires}:{" "}
-                              <time dateTime={invitation.expiresAt}>
+                              <time dir="ltr" dateTime={invitation.expiresAt}>
                                 {formatDate(invitation.expiresAt)}
                               </time>
                             </p>
